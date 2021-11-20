@@ -45,28 +45,37 @@ public class SimpleTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             // Run
             
-            drive.driveJoystick(gamepad1.right_stick_x*1.5, gamepad1.left_stick_y*1.5);
+            double x_multiplier = 1.5;
+            double y_multiplier = 1.5;
             
-            spinner.runSpinner(gamepad1.right_trigger, 1);
+            if (gamepad1.left_trigger > 0) { left_multiplier = 2; }
             
-            if (gamepad1.dpad_up) {
-                arm.runArm(1, .5);
+            if (gamepad1.right_trigger > 0) { left_multiplier = 2; }
+            
+            drive.driveJoystick(gamepad1.right_stick_x*x_multiplier, gamepad1.left_stick_y*y_multiplier);
+            
+            if (gamepad1.left_bumper) {
                 
-            } else if (gamepad1.dpad_down) {
-                arm.runArm(1, -.5);
+            } else if (gamepad1.right_bumper) {
                 
             }
-
-            if (gamepad1.dpad_left) {
-                arm.runIntake(.5);
-
-            } else if (gamepad1.dpad_right) {
-                arm.runIntake(-.5);
-
-            }
+            
+            if (gamepad1.dpad_up)           { arm.runArm(1, .4); }  
+            else if (gamepad1.dpad_down)    { arm.runArm(1, -.5); }
+            
+            if (gamepad1.dpad_left)         { spinner.runSpinner(1, 1); } 
+            else if (gamepad1.dpad_right)   { spinner.runSpinner(1, -1); }
+            
+            if (gamepad1.x) { arm.stopArm(); }
+            
+            if (gamepad1.b) { arm.stopIntake(); }
+            
+            if (gamepad1.y) { arm.runIntake(1); }
+            
+            if (gamepad1.y) { arm.runIntake(-1); }
+        
             
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            
         }
     }
     

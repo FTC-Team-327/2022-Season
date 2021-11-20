@@ -33,70 +33,51 @@ public class MecanumDrive extends Drive {
 
     // --------------------- Drive
 
-    public void strafeRight(double rotations, double power, int heading){
-        double target=(rotations*360)+motors[REAR_RIGHT_MOTOR].getCurrentPosition();
+    /**
+     * 
+     */
+
+    public void driveJoystick(double x, double y) {
+        y = -y;
         
-        while((double)motors[REAR_RIGHT_MOTOR].getCurrentPosition()<target){
-            motors[FRONT_RIGHT_MOTOR].setTargetPosition((int)target);
-            motors[FRONT_RIGHT_MOTOR].setPower(-power);
+        double leftPower;
+        double rightPower;
+        
+        // Calculate Power (Drive Train)
+        leftPower = Range.clip(y + x, -1.0, 1.0) ;
+        rightPower = Range.clip(y - x, -1.0, 1.0) ;
+        
+        simpledrive(leftPower, rightPower);
 
-            motors[REAR_RIGHT_MOTOR].setTargetPosition((int)target);
-            motors[REAR_RIGHT_MOTOR].setPower(power);
+    }
 
-            motors[FRONT_LEFT_MOTOR].setTargetPosition((int)target);
-            motors[FRONT_LEFT_MOTOR].setPower(-power);
+    public void strafeRight(double rotations, double power, int heading){
+        motors[FRONT_RIGHT_MOTOR].setTargetPosition((int)target);
+        motors[FRONT_RIGHT_MOTOR].setPower(-power);
 
-            motors[REAR_LEFT_MOTOR].setTargetPosition((int)target);
-            motors[REAR_LEFT_MOTOR].setPower(power);
+        motors[REAR_RIGHT_MOTOR].setTargetPosition((int)target);
+        motors[REAR_RIGHT_MOTOR].setPower(power);
 
-            // printData();
+        motors[FRONT_LEFT_MOTOR].setTargetPosition((int)target);
+        motors[FRONT_LEFT_MOTOR].setPower(-power);
 
-            if(angles.firstAngle>convert(2+heading)){
-                motors[REAR_RIGHT_MOTOR].setPower(power);
-                motors[REAR_LEFT_MOTOR].setPower(power);
+        motors[REAR_LEFT_MOTOR].setTargetPosition((int)target);
+        motors[REAR_LEFT_MOTOR].setPower(power);
 
-            } else if(angles.firstAngle<convert(-2+heading)){
-                motors[FRONT_RIGHT_MOTOR].setPower(-power);
-                motors[FRONT_LEFT_MOTOR].setPower(-power);
-                
-                //strafe left = right side spin outwards; left side spins inwards
-            }
-
-        }
-
-        brake();
     }
     
     public void strafeLeft(double rotations, double power, int heading){
-        double target=(-rotations*360)+motors[REAR_RIGHT_MOTOR].getCurrentPosition();
+        motors[FRONT_RIGHT_MOTOR].setTargetPosition((int)target);
+        motors[FRONT_RIGHT_MOTOR].setPower(power);
 
-        while((double)motors[REAR_RIGHT_MOTOR].getCurrentPosition()>target){
-            motors[FRONT_RIGHT_MOTOR].setTargetPosition((int)target);
-            motors[FRONT_RIGHT_MOTOR].setPower(power);
+        motors[REAR_RIGHT_MOTOR].setTargetPosition((int)target);
+        motors[REAR_RIGHT_MOTOR].setPower(-power);
 
-            motors[REAR_RIGHT_MOTOR].setTargetPosition((int)target);
-            motors[REAR_RIGHT_MOTOR].setPower(-power);
+        motors[FRONT_LEFT_MOTOR].setTargetPosition((int)target);
+        motors[FRONT_LEFT_MOTOR].setPower(power);
 
-            motors[FRONT_LEFT_MOTOR].setTargetPosition((int)target);
-            motors[FRONT_LEFT_MOTOR].setPower(power);
-
-            motors[REAR_LEFT_MOTOR].setTargetPosition((int)target);
-            motors[REAR_LEFT_MOTOR].setPower(-power);
-
-            // printData();
-
-            if(angles.firstAngle>convert(2+heading)){
-                motors[FRONT_RIGHT_MOTOR].setPower(power);
-                motors[FRONT_LEFT_MOTOR].setPower(power);
-
-            } else if(angles.firstAngle<convert(-2+heading)){
-                motors[REAR_RIGHT_MOTOR].setPower(-power);
-                motors[REAR_LEFT_MOTOR].setPower(-power);
-
-            }
-        }
-
-        brake();
+        motors[REAR_LEFT_MOTOR].setTargetPosition((int)target);
+        motors[REAR_LEFT_MOTOR].setPower(-power);
 
     }
     

@@ -40,7 +40,7 @@ public class Arm {
      * 
      */
 
-    public void intake() {
+    public void stopIntake() {
         intake.setPower(0);
 
     }
