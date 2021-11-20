@@ -45,6 +45,9 @@ public class MecanumDrive extends Drive {
 
     public void mecdrive(double forward, double strafe, double rotate) {
 
+        // strafe is reversed
+        strafe = strafe * -1;
+
         // Mecanum drive is controlled with three axes: drive (front-and-back),
         // strafe (left-and-right), and twist (rotating the whole chassis).
 
