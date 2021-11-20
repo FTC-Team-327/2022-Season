@@ -84,12 +84,8 @@ public class SimpleTeleOp extends LinearOpMode {
         
             
             telemetry.addData("Encoder Value", arm.encoderValue() );
-<<<<<<< HEAD
             telemetry.addData("Arm Angle", arm.getAngle() );
             telemetry.addData("Desired Angle", arm.desiredAngle(); )
-=======
-            telemetry.addData("Arm Angle", arm.getAngle() + "" );
->>>>>>> cf3115f7b65b4403a601a05e8598bc26cf893a9d
             telemetry.update();
         }
     }
