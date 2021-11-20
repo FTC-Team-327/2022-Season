@@ -68,4 +68,42 @@ public class Arm {
 
     }
 
+    /**
+     * Reset the encoders
+     */
+
+    public void resetEncoders() {
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+    }
+
+    /**
+     * Reset the encoders
+     */
+
+    public void resetEncoderMode() {
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+    }
+
+    /**
+     * Enable the encoders
+     */
+
+    public void enableEncoders() {
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
+    /**
+     * Set the arm position
+     */
+
+    public void setArmPosition(double pos, double power) {
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setTargetPosition(pos);
+        arm.setPower(power);
+        
+    }
+
 }
