@@ -31,73 +31,44 @@ public class MecanumDrive extends Drive {
 
     }
 
-    // --------------------- Drive
+@Override
+public void drive(double left_stick_y, double left_stick_x, double right_stick_x) {
 
-    public void strafeRight(double rotations, double power, int heading){
-        double target=(rotations*360)+motors[REAR_RIGHT_MOTOR].getCurrentPosition();
-        
-        while((double)motors[REAR_RIGHT_MOTOR].getCurrentPosition()<target){
-            motors[FRONT_RIGHT_MOTOR].setTargetPosition((int)target);
-            motors[FRONT_RIGHT_MOTOR].setPower(-power);
+    // Mecanum drive is controlled with three axes: drive (front-and-back),
+    // strafe (left-and-right), and twist (rotating the whole chassis).
+    double drive  = left_stick_y;
+    double strafe = left_stick_x;
+    double twist  = right_stick_x;
 
-            motors[REAR_RIGHT_MOTOR].setTargetPosition((int)target);
-            motors[REAR_RIGHT_MOTOR].setPower(power);
+    // You may need to multiply some of these by -1 to invert direction of
+    // the motor.  This is not an issue with the calculations themselves.
+    double[] speeds = {
+        (drive + strafe + twist),
+        (drive - strafe - twist),
+        (drive - strafe + twist),
+        (drive + strafe - twist)
+    };
 
-            motors[FRONT_LEFT_MOTOR].setTargetPosition((int)target);
-            motors[FRONT_LEFT_MOTOR].setPower(-power);
+    // Because we are adding vectors and motors only take values between
+    // [-1,1] we may need to normalize them.
 
-            motors[REAR_LEFT_MOTOR].setTargetPosition((int)target);
-            motors[REAR_LEFT_MOTOR].setPower(power);
-
-            // printData();
-
-            if(angles.firstAngle>convert(2+heading)){
-                motors[REAR_RIGHT_MOTOR].setPower(power);
-                motors[REAR_LEFT_MOTOR].setPower(power);
-
-            } else if(angles.firstAngle<convert(-2+heading)){
-                motors[FRONT_RIGHT_MOTOR].setPower(-power);
-                motors[FRONT_LEFT_MOTOR].setPower(-power);
-                
-                //strafe left = right side spin outwards; left side spins inwards
-            }
-
-        }
-
-        brake();
+    // Loop through all values in the speeds[] array and find the greatest
+    // *magnitude*.  Not the greatest velocity.
+    double max = Math.abs(speeds[0]);
+    for(int i = 0; i < speeds.length; i++) {
+        if ( max < Math.abs(speeds[i]) ) max = Math.abs(speeds[i]);
     }
-    
-    public void strafeLeft(double rotations, double power, int heading){
-        double target=(-rotations*360)+motors[REAR_RIGHT_MOTOR].getCurrentPosition();
 
-        while((double)motors[REAR_RIGHT_MOTOR].getCurrentPosition()>target){
-            motors[FRONT_RIGHT_MOTOR].setTargetPosition((int)target);
-            motors[FRONT_RIGHT_MOTOR].setPower(power);
-
-            motors[REAR_RIGHT_MOTOR].setTargetPosition((int)target);
-            motors[REAR_RIGHT_MOTOR].setPower(-power);
-
-            motors[FRONT_LEFT_MOTOR].setTargetPosition((int)target);
-            motors[FRONT_LEFT_MOTOR].setPower(power);
-
-            motors[REAR_LEFT_MOTOR].setTargetPosition((int)target);
-            motors[REAR_LEFT_MOTOR].setPower(-power);
-
-            // printData();
-
-            if(angles.firstAngle>convert(2+heading)){
-                motors[FRONT_RIGHT_MOTOR].setPower(power);
-                motors[FRONT_LEFT_MOTOR].setPower(power);
-
-            } else if(angles.firstAngle<convert(-2+heading)){
-                motors[REAR_RIGHT_MOTOR].setPower(-power);
-                motors[REAR_LEFT_MOTOR].setPower(-power);
-
-            }
-        }
-
-        brake();
-
+    // If and only if the maximum is outside of the range we want it to be,
+    // normalize all the other speeds based on the given speed value.
+    if (max > 1) {
+        for (int i = 0; i < speeds.length; i++) speeds[i] /= max;
     }
-    
+
+    // apply the calculated values to the motors.
+    front_left.setPower(speeds[0]);
+    front_right.setPower(speeds[1]);
+    back_left.setPower(speeds[2]);
+    back_right.setPower(speeds[3]);
+}
 }
