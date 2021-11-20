@@ -107,7 +107,7 @@ public class Drive {
     }
 
     /**
-     * Reset the encoders
+     * Enable the encoders
      */
 
     public void enableEncoders() {
