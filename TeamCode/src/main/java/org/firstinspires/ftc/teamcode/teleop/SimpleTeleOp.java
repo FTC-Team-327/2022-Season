@@ -12,7 +12,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import org.firstinspires.ftc.teamcode.subsystems.*;
 
-@TeleOp(name="Test Robot", group="Linear Opmode")
+@TeleOp(name="327 Robot", group="Linear Opmode")
 
 public class SimpleTeleOp extends LinearOpMode {
 
