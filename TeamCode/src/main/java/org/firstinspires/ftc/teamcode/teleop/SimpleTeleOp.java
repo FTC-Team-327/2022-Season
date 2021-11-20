@@ -44,19 +44,29 @@ public class SimpleTeleOp extends LinearOpMode {
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             // Run
-            drive.driveJoystick(gamepad1.right_stick_x, gamepad1.left_stick_y);
-            spinner.runSpinner(gamepad1.right_trigger, .5);
-            arm.runArm(gamepad1.left_trigger, 1);
-
+            
+            drive.driveJoystick(gamepad1.right_stick_x*1.5, gamepad1.left_stick_y*1.5);
+            
+            spinner.runSpinner(gamepad1.right_trigger, 1);
+            
             if (gamepad1.dpad_up) {
+                arm.runArm(1, .5);
+                
+            } else if (gamepad1.dpad_down) {
+                arm.runArm(1, -.5);
+                
+            }
+
+            if (gamepad1.dpad_left) {
                 arm.runIntake(.5);
 
-            } else if (gamepad1.dpad_down) {
+            } else if (gamepad1.dpad_right) {
                 arm.runIntake(-.5);
 
             }
             
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            
         }
     }
     
