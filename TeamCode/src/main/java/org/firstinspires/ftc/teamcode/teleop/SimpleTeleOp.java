@@ -62,8 +62,9 @@ public class SimpleTeleOp extends LinearOpMode {
                 
             }
             
-            if (gamepad1.dpad_up)           { arm.runArm(1, .4); }  
-            else if (gamepad1.dpad_down)    { arm.runArm(1, -.5); }
+            if (gamepad1.dpad_up)           { arm.changeAngle(10); }  
+            else if (gamepad1.dpad_down)    { arm.changeAngle(10); }
+
             
             if (gamepad1.dpad_left)         { spinner.runSpinner(1, 1); } 
             else if (gamepad1.dpad_right)   { spinner.runSpinner(1, -1); }
