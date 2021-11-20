@@ -10,6 +10,7 @@ public class Arm {
     /** */
     private DcMotor motor;
     private CRServo intake;
+    private int angle;
 
     private int ENCODER_TICKS = 537.7;
 
@@ -114,9 +115,18 @@ public class Arm {
      * Set the arm position
      */
 
-    public void setArmPosition(double angle) {
-        setAngle(angle)
+    public void setArmPosition(double a) {
+        angle = a;
+        setAngle(angle);
         
+    }
+
+    /**
+     * Increment arm position
+     */
+    public void changeAngle(double inc) {
+        angle += inc;
+        setAngle(angle);
     }
 
 }
