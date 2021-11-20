@@ -32,7 +32,7 @@ public class SimpleTeleOp extends LinearOpMode {
 		// Run until the end of the match (driver presses STOP)
 		while (opModeIsActive()) {
 			// Run
-			drive.simpledrive(gamepad1.right_stick_x, gamepad1.left_stick_y);
+			drive.driveJoystick(gamepad1.right_stick_x, gamepad1.left_stick_y);
 			
 			telemetry.addData("Status", "Run Time: " + runtime.toString());
 		}

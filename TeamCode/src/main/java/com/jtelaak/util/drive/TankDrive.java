@@ -53,5 +53,23 @@ public class TankDrive extends Drive {
     }
 
     // --------------------- Drive
+
+    /**
+     * 
+     */
+
+    public void driveJoystick(double x, double y) {
+		y = -y;
+		
+		double leftPower;
+		double rightPower;
+		
+		// Calculate Power (Drive Train)
+		leftPower = Range.clip(y + x, -1.0, 1.0) ;
+		rightPower = Range.clip(y - x, -1.0, 1.0) ;
+		
+		simpledrive(leftPower, rightPower);
+
+    }
     
 }
