@@ -69,13 +69,13 @@ public class SimpleTeleOp extends LinearOpMode {
             if (gamepad1.dpad_left)         { spinner.runSpinner(1, 1); } 
             else if (gamepad1.dpad_right)   { spinner.runSpinner(1, -1); }
             
-            if (gamepad1.x) { arm.stopArm(); }
+            if (gamepad1.x) { spinner.runSpinner(1,0); }
             
             if (gamepad1.b) { arm.stopIntake(); }
             
-            if (gamepad1.y) { arm.runIntake(1); }
+            if (gamepad1.y) { arm.runIntake(-1); }
             
-            if (gamepad1.a) { arm.runIntake(-1); }
+            if (gamepad1.a) { arm.runIntake(1); }
         
             
             telemetry.addData("Status", "Run Time: " + runtime.toString());
