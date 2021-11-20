@@ -31,54 +31,55 @@ public class MecanumDrive extends Drive {
 
     }
 
-    // --------------------- Drive
 
-    /**
-     * 
-     */
+/**
+ * Heavily inspired by https://github.com/brandon-gong/ftc-mecanum
+ * 
+ * takes in values from -1 to 1, for 3 axes.
+ * 
+ * @param front_back forward/backward motion
+ * @param strafe left/right motion
+ * @param rotate rotation
+ * 
+ */
+@Override
+public void drive(double front_back, double strafe, double rotate) {
 
-    public void driveJoystick(double x, double y) {
-        y = -y;
-        
-        double leftPower;
-        double rightPower;
-        
-        // Calculate Power (Drive Train)
-        leftPower = Range.clip(y + x, -1.0, 1.0) ;
-        rightPower = Range.clip(y - x, -1.0, 1.0) ;
-        
-        simpledrive(leftPower, rightPower);
+    // Mecanum drive is controlled with three axes: drive (front-and-back),
+    // strafe (left-and-right), and twist (rotating the whole chassis).
+    double drive  = front_back;
+    double strafe = left_stick_x;
+    double twist  = right_stick_x;
 
+    // You may need to multiply some of these by -1 to invert direction of
+    // the motor.  This is not an issue with the calculations themselves.
+    double[] speeds = {
+        (drive + strafe + twist),
+        (drive - strafe - twist),
+        (drive - strafe + twist),
+        (drive + strafe - twist)
+    };
+
+    // Because we are adding vectors and motors only take values between
+    // [-1,1] we may need to normalize them.
+
+    // Loop through all values in the speeds[] array and find the greatest
+    // *magnitude*.  Not the greatest velocity.
+    double max = Math.abs(speeds[0]);
+    for(int i = 0; i < speeds.length; i++) {
+        if ( max < Math.abs(speeds[i]) ) max = Math.abs(speeds[i]);
     }
 
-    public void strafeRight(double rotations, double power, int heading){
-        motors[FRONT_RIGHT_MOTOR].setTargetPosition((int)target);
-        motors[FRONT_RIGHT_MOTOR].setPower(-power);
-
-        motors[REAR_RIGHT_MOTOR].setTargetPosition((int)target);
-        motors[REAR_RIGHT_MOTOR].setPower(power);
-
-        motors[FRONT_LEFT_MOTOR].setTargetPosition((int)target);
-        motors[FRONT_LEFT_MOTOR].setPower(-power);
-
-        motors[REAR_LEFT_MOTOR].setTargetPosition((int)target);
-        motors[REAR_LEFT_MOTOR].setPower(power);
-
+    // If and only if the maximum is outside of the range we want it to be,
+    // normalize all the other speeds based on the given speed value.
+    if (max > 1) {
+        for (int i = 0; i < speeds.length; i++) speeds[i] /= max;
     }
-    
-    public void strafeLeft(double rotations, double power, int heading){
-        motors[FRONT_RIGHT_MOTOR].setTargetPosition((int)target);
-        motors[FRONT_RIGHT_MOTOR].setPower(power);
 
-        motors[REAR_RIGHT_MOTOR].setTargetPosition((int)target);
-        motors[REAR_RIGHT_MOTOR].setPower(-power);
-
-        motors[FRONT_LEFT_MOTOR].setTargetPosition((int)target);
-        motors[FRONT_LEFT_MOTOR].setPower(power);
-
-        motors[REAR_LEFT_MOTOR].setTargetPosition((int)target);
-        motors[REAR_LEFT_MOTOR].setPower(-power);
-
-    }
-    
+    // apply the calculated values to the motors.
+    front_left.setPower(speeds[0]);
+    front_right.setPower(speeds[1]);
+    back_left.setPower(speeds[2]);
+    back_right.setPower(speeds[3]);
+}
 }
