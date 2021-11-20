@@ -31,6 +31,10 @@ public class MecanumDrive extends Drive {
 
     }
 
+
+/**
+ * Heavily inspired by https://github.com/brandon-gong/ftc-mecanum
+ */
 @Override
 public void drive(double left_stick_y, double left_stick_x, double right_stick_x) {
 
