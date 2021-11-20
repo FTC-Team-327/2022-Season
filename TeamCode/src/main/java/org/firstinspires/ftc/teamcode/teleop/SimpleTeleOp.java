@@ -67,8 +67,8 @@ public class SimpleTeleOp extends LinearOpMode {
 
             drive.mecdrive(forward, strafe, rotate);
             
-            if (gamepad1.dpad_up)           { arm.changeAngle(10); }  
-            else if (gamepad1.dpad_down)    { arm.changeAngle(-10); }
+            if (gamepad1.dpad_up)           { arm.changeAngle(1); }  
+            else if (gamepad1.dpad_down)    { arm.changeAngle(-1); }
 
             
             if (gamepad1.dpad_left)         { spinner.runSpinner(1, 1); } 
