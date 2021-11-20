@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.jtelaa.util.drive.TankDrive;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class DriveTrain extends TankDrive {
+public class DriveTrain extends MecanumDrive {
 
     // --------------------- Constructors
 

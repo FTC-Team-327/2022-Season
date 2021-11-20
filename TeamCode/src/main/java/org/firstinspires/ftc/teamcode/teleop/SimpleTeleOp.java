@@ -44,7 +44,7 @@ public class SimpleTeleOp extends LinearOpMode {
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             // Run
-            drive.driveJoystick(gamepad1.right_stick_x, gamepad1.left_stick_y);
+            drive.driveJoystick(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
             spinner.runSpinner(gamepad1.right_trigger, .5);
             arm.runArm(gamepad1.left_trigger, 1);
 
