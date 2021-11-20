@@ -55,8 +55,10 @@ public class SimpleTeleOp extends LinearOpMode {
             drive.driveJoystick(gamepad1.right_stick_x*x_multiplier, gamepad1.left_stick_y*y_multiplier);
             
             if (gamepad1.left_bumper) {
+                drive.mecdrive(1, 1, 0);
                 
             } else if (gamepad1.right_bumper) {
+                drive.mecdrive(1, -1, 0);
                 
             }
             

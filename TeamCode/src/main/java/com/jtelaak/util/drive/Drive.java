@@ -184,6 +184,24 @@ public class Drive {
      * 
      */
 
+    public void driveJoystick(double x, double y) {
+        y = -y;
+        
+        double leftPower;
+        double rightPower;
+        
+        // Calculate Power (Drive Train)
+        leftPower = Range.clip(y + x, -1.0, 1.0) ;
+        rightPower = Range.clip(y - x, -1.0, 1.0) ;
+        
+        simpledrive(leftPower, rightPower);
+
+    }
+
+    /**
+     * 
+     */
+
     public void forward(double rotations, double power, int heading) {
         //one rotation goes 11.87in
         double target= (rotations * 360) + motors[FRONT_RIGHT_MOTOR].getCurrentPosition();

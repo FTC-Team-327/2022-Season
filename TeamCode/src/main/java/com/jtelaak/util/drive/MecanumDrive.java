@@ -42,8 +42,8 @@ public class MecanumDrive extends Drive {
  * @param rotate rotation
  * 
  */
-@Override
-public void drive(double front_back, double strafe, double rotate) {
+
+public void mecdrive(double front_back, double strafe, double rotate) {
 
     // Mecanum drive is controlled with three axes: drive (front-and-back),
     // strafe (left-and-right), and twist (rotating the whole chassis).
