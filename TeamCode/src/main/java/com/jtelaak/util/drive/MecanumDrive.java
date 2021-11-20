@@ -34,13 +34,20 @@ public class MecanumDrive extends Drive {
 
 /**
  * Heavily inspired by https://github.com/brandon-gong/ftc-mecanum
+ * 
+ * takes in values from -1 to 1, for 3 axes.
+ * 
+ * @param front_back forward/backward motion
+ * @param strafe left/right motion
+ * @param rotate rotation
+ * 
  */
 @Override
-public void drive(double left_stick_y, double left_stick_x, double right_stick_x) {
+public void drive(double front_back, double strafe, double rotate) {
 
     // Mecanum drive is controlled with three axes: drive (front-and-back),
     // strafe (left-and-right), and twist (rotating the whole chassis).
-    double drive  = left_stick_y;
+    double drive  = front_back;
     double strafe = left_stick_x;
     double twist  = right_stick_x;
 
