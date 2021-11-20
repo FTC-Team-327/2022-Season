@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
-import org.firstinspires.ftc.teamcode.systems.*;
+import org.firstinspires.ftc.teamcode.subsystems.*;
 
 @TeleOp(name="Test Robot", group="Linear Opmode")
 
@@ -32,6 +32,8 @@ public class SimpleTeleOp extends LinearOpMode {
             
         });
 
+        Spinner spinner = new Spinner(hardwareMap.get(DcMotor.class, "spinner"));
+
         //drive.addImu(hardwareMap.get(BNO055IMU.class, "imu"));
         
         // Wait for game to start
@@ -42,6 +44,7 @@ public class SimpleTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             // Run
             drive.driveJoystick(gamepad1.right_stick_x, gamepad1.left_stick_y);
+            drive.driveJoystick(gamepad1.right_trigger, .5);
             
             telemetry.addData("Status", "Run Time: " + runtime.toString());
         }
