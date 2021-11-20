@@ -34,6 +34,7 @@ public class SimpleTeleOp extends LinearOpMode {
 
         Spinner spinner = new Spinner(hardwareMap.get(DcMotor.class, "spinner"));
         Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "intake"));
+        arm.enableEncoders();
 
         //drive.addImu(hardwareMap.get(BNO055IMU.class, "imu"));
         
