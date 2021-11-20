@@ -1,3 +1,7 @@
+# other
+*.prefs
+*.project
+
 # built application files
 *.apk
 *.ap_
