@@ -43,7 +43,7 @@ public class MecanumDrive extends Drive {
      * 
      */
 
-    public void mecdrive(double front_back, double strafe, double rotate) {
+    public void mecdrive(double forward, double strafe, double rotate) {
 
         // Mecanum drive is controlled with three axes: drive (front-and-back),
         // strafe (left-and-right), and twist (rotating the whole chassis).
@@ -51,10 +51,10 @@ public class MecanumDrive extends Drive {
         // You may need to multiply some of these by -1 to invert direction of
         // the motor.  This is not an issue with the calculations themselves.
         double[] speeds = {
-            (front_back + strafe + rotate),
-            (front_back - strafe - rotate),
-            (front_back - strafe + rotate),
-            (front_back + strafe - rotate)
+            (forward + strafe + rotate),
+            (forward - strafe - rotate),
+            (forward - strafe + rotate),
+            (forward + strafe - rotate)
         };
 
         // Because we are adding vectors and motors only take values between

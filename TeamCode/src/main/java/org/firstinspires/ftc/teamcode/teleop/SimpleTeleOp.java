@@ -36,6 +36,11 @@ public class SimpleTeleOp extends LinearOpMode {
         Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "intake"));
         arm.enableEncoders();
 
+
+        double forward;
+        double strafe;
+        double rotate;
+
         //drive.addImu(hardwareMap.get(BNO055IMU.class, "imu"));
         
         // Wait for game to start
@@ -53,15 +58,14 @@ public class SimpleTeleOp extends LinearOpMode {
             
             if (gamepad1.right_trigger > 0) { y_multiplier = 2; }
             
-            drive.driveJoystick(gamepad1.right_stick_x*x_multiplier, gamepad1.left_stick_y*y_multiplier);
+            forward = gamepad1.left_stick_y * y_multiplier;
+            strafe = gamepad1.left_stick_x * x_multiplier;
+            rotate = gamepad1.right_stick_x;
             
-            if (gamepad1.left_bumper) {
-                drive.mecdrive(1, 1, 0);
-                
-            } else if (gamepad1.right_bumper) {
-                drive.mecdrive(1, -1, 0);
-                
-            }
+            if (gamepad1.left_bumper) { strafe = -1; } 
+            else if (gamepad1.right_bumper) { strafe = 1; }
+
+            drive.mecdrive(forward, strafe, rotate);
             
             if (gamepad1.dpad_up)           { arm.changeAngle(10); }  
             else if (gamepad1.dpad_down)    { arm.changeAngle(10); }
