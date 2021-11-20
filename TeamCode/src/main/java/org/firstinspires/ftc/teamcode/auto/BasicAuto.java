@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name="Drive Left", group = "Linear Opmode")
 
-public class Auto extends LinearOpMode {
+public class BasicAuto extends LinearOpMode {
 	
 	// timer
     private ElapsedTime runtime = new ElapsedTime();
@@ -26,8 +26,8 @@ public class Auto extends LinearOpMode {
 		runtime.reset();
 
 		while (opModeIsActive()) {
-			// Run
-			if (runtime.seconds() < 2) drive.drive(0, -.5, 0);
+            //drive forwards
+			if (runtime.seconds() < 2) { drive.drive(0, -.5, 0) }
 		}
 
 	}
