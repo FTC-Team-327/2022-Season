@@ -1,7 +1,12 @@
 package com.jtelaa.util.drive;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 
 /**
  * 
@@ -23,9 +28,42 @@ public class Drive {
     // --------------------- Motor objects
 
     /** Motors */
-    private DcMotor[] motors;
+    public DcMotor[] motors;
+
+    // --------------------- Angles / IMU
+
+    public Orientation angles;
+    public BNO055IMU imu;
 
     // --------------------- Constructors
+
+    /**
+     * Drive constructor (See public ints for indexes)
+     * 
+     * @param motors Motor array
+     */
+
+    public Drive(DcMotor[] motors) {
+        this.motors = motors;
+
+        for (int i = 0; i < motors.length; i++) {
+            if (i % 2 == 0) {
+                motors[i].setDirection(DcMotor.Direction.FORWARD);
+
+            }
+        }
+
+        for (int i = 0; i < motors.length; i++) {
+            if (i % 2 == 1) {
+                motors[i].setDirection(DcMotor.Direction.REVERSE);
+
+            }
+        }
+
+        resetEncoders();
+        enableEncoders();
+
+    }
 
     /**
      * Drive constructor
@@ -37,65 +75,21 @@ public class Drive {
      */
 
     public Drive(DcMotor front_left_motor, DcMotor front_right_motor, DcMotor rear_left_motor, DcMotor rear_right_motor) {
+        motors = new DcMotor[4];
+        
         motors[FRONT_LEFT_MOTOR] = front_left_motor;
         motors[FRONT_LEFT_MOTOR] = front_right_motor;
         motors[REAR_LEFT_MOTOR]  = rear_left_motor;
         motors[REAR_RIGHT_MOTOR] = rear_right_motor;
 
-        resetEncoders();
-        enableEncoders();
-
     }
 
     /**
-     * Drive constructor (See public ints for indexes)
-     * 
-     * @param motors Motor array
+     * s
      */
 
-    public Drive(DcMotor[] motors) {
-        this.motors = motors;
-
-        resetEncoders();
-        enableEncoders();
-
-    }
-
-    /**
-     * Drive constructor
-     * 
-     * @param front_left_motor front left motor
-     * @param front_right_motor front right motor
-     * @param rear_left_motor rear left motor
-     * @param rear_right_motor rear right motor
-     */
-
-    public Drive(String front_left_motor, String front_right_motor, String rear_left_motor, String rear_right_motor) {
-        this(
-            hardwareMap.get(DcMotor.class, front_left_motor),
-            hardwareMap.get(DcMotor.class, front_right_motor),
-            hardwareMap.get(DcMotor.class, rear_left_motor),
-            hardwareMap.get(DcMotor.class, rear_right_motor)
-
-        );
-
-    }
-
-    /**
-     * Drive constructor (See public ints for indexes)
-     * 
-     * @param motors Motor array
-     */
-
-    public Drive(String[] motors) {
-        DcMotor[] motors_objects = new DcMotor[motors.length];
-
-        for (int i = 0; i < motors.length; i++) {
-            motors_objects[i] = hardwareMap.get(DcMotor.class, motors[i]);
-
-        }
-        
-        this(motors_objects);
+    public void addIMU(BNO055IMU imu) {
+        this.imu = imu;
 
     }
 
@@ -149,13 +143,29 @@ public class Drive {
     }
 
     /**
+     * 
+     */
+
+    public int convert(int angle){
+        if(angle>180){
+            return angle-360;
+        }
+        else if(angle<-180){
+            return angle+360;   
+        }
+        else{
+            return angle;
+        }
+    }
+
+    /**
      * Simple drive 
      * 
      * @param left left motor power (left motors have even index)
      * @param right right motor power (right motors have even index)
      */
 
-    public simpledrive(double left, double right) {
+    public void simpledrive(double left, double right) {
         for (int i = 0; i < motors.length; i++) {
             if (i % 2 == 0) {
                 setPower(i, left);
@@ -174,7 +184,7 @@ public class Drive {
      * 
      */
 
-    public void forward(double rotations, double power, int heading)v{
+    public void forward(double rotations, double power, int heading) {
         //one rotation goes 11.87in
         double target= (rotations * 360) + motors[FRONT_RIGHT_MOTOR].getCurrentPosition();
 
@@ -194,12 +204,12 @@ public class Drive {
             // printData();
 
             if(angles.firstAngle>convert(2+heading)){
-                motors[FRONT_RIGHT_MOTOR].setPower(power/divisor);
-                motors[REAR_RIGHT_MOTOR].setPower(power/divisor);
+                motors[FRONT_RIGHT_MOTOR].setPower(power);
+                motors[REAR_RIGHT_MOTOR].setPower(power);
 
             } else if(angles.firstAngle<convert(-2+heading)){
-                motors[FRONT_LEFT_MOTOR].setPower(-power/divisor);
-                motors[REAR_LEFT_MOTOR].setPower(-power/divisor);
+                motors[FRONT_LEFT_MOTOR].setPower(-power);
+                motors[REAR_LEFT_MOTOR].setPower(-power);
 
             }
         }
@@ -232,12 +242,12 @@ public class Drive {
             // printData();
 
             if(angles.firstAngle>convert(2+heading)){
-                motors[FRONT_LEFT_MOTOR].setPower(power/divisor);
-                motors[REAR_LEFT_MOTOR].setPower(power/divisor);
+                motors[FRONT_LEFT_MOTOR].setPower(power);
+                motors[REAR_LEFT_MOTOR].setPower(power);
 
             } else if(angles.firstAngle<convert(-2+heading)){
-                motors[FRONT_RIGHT_MOTOR].setPower(-power/divisor);
-                motors[REAR_RIGHT_MOTOR].setPower(-power/divisor);
+                motors[FRONT_RIGHT_MOTOR].setPower(-power);
+                motors[REAR_RIGHT_MOTOR].setPower(-power);
 
             }
         }
@@ -251,7 +261,7 @@ public class Drive {
      */
 
     public void turnRight(double power, int heading){
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         
         while(angles.firstAngle>heading){
             motors[FRONT_LEFT_MOTOR].setPower(-0.2);
@@ -272,7 +282,7 @@ public class Drive {
      */
     
     public void turnLeft(double power, int heading){
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         
         while(angles.firstAngle<heading){
             motors[FRONT_LEFT_MOTOR].setPower(0.2);
