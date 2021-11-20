@@ -114,7 +114,7 @@ public class Arm {
 
     public double angleToTicks(double angle) { return (angle / 360.0) * ENCODER_TICKS; }
 
-    public void setAngle(double angle) { arm.setTargetPosition((int) angle); }
+    public void setAngle(double angle) { arm.setTargetPosition((int) angleToTicks(angle)); }
 
     public double encoderValue() { return arm.getCurrentPosition(); }
 
