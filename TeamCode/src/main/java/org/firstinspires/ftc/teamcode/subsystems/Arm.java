@@ -114,6 +114,8 @@ public class Arm {
 
     public void setAngle(double angle) { arm.setTargetPosition((int) angle); }
 
+    public double encoderValue() { return arm.getCurrentPosition(); }
+
     /**
      * Set the arm position
      */

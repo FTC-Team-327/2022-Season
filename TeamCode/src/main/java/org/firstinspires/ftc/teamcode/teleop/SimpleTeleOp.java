@@ -83,7 +83,8 @@ public class SimpleTeleOp extends LinearOpMode {
             if (gamepad1.a) { arm.runIntake(1); }
         
             
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Encoder Value", arm.encoderValue() );
+            telemetry.addData("Arm Angle", arm.getAngle().toString() );
             telemetry.update();
         }
     }
