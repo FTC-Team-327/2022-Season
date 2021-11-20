@@ -74,7 +74,7 @@ public class SimpleTeleOp extends LinearOpMode {
             
             if (gamepad1.y) { arm.runIntake(1); }
             
-            if (gamepad1.y) { arm.runIntake(-1); }
+            if (gamepad1.a) { arm.runIntake(-1); }
         
             
             telemetry.addData("Status", "Run Time: " + runtime.toString());
