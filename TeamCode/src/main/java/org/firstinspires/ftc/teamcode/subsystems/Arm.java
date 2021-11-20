@@ -8,7 +8,7 @@ public class Arm {
     // ---------------- Declarations
 
     /** */
-    private DcMotor motor;
+    private DcMotor arm;
     private CRServo intake;
     private double angle;
 
@@ -20,12 +20,12 @@ public class Arm {
      * 
      */
 
-    public Arm(DcMotor motor, CRServo intake) {
-        this.motor = motor;
+    public Arm(DcMotor arm, CRServo intake) {
+        this.arm = arm;
         this.intake = intake;
 
-        this.motor.setDirection(DcMotor.Direction.REVERSE);
-        this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.arm.setDirection(DcMotor.Direction.REVERSE);
+        this.arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
     }
@@ -56,7 +56,7 @@ public class Arm {
 
     public void runArm(float press, double power) {
         if (press > 0) {
-            motor.setPower(power);
+            arm.setPower(power);
 
         } else {
             stopArm();
@@ -69,7 +69,7 @@ public class Arm {
      */
 
     public void stopArm() {
-        motor.setPower(0);
+        arm.setPower(0);
 
     }
 
@@ -78,7 +78,7 @@ public class Arm {
      */
 
     public void resetEncoders() {
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 
@@ -87,7 +87,7 @@ public class Arm {
      */
 
     public void resetEncoderMode() {
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     }
 
@@ -96,18 +96,18 @@ public class Arm {
      */
 
     public void enableEncoders() {
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setPower(.5);
     }
 
     /**
      * @return arm angle in degrees
      */
-    public double getAngle() { return (motor.getCurrentPosition() / ENCODER_TICKS) * 360.0; }
+    public double getAngle() { return (arm.getCurrentPosition() / ENCODER_TICKS) * 360.0; }
 
     public double angleToTicks(double angle) { return (angle / 360.0) * ENCODER_TICKS; }
 
-    public void setAngle(double angle) { motor.setTargetPosition((int) angle); }
+    public void setAngle(double angle) { arm.setTargetPosition((int) angle); }
 
     /**
      * Set the arm position
