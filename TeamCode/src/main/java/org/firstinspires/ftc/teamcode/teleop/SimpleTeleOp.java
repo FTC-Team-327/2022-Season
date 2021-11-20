@@ -79,6 +79,7 @@ public class SimpleTeleOp extends LinearOpMode {
         
             
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.update();
         }
     }
     
