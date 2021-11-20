@@ -99,9 +99,11 @@ public class Arm {
         arm.setTargetPosition(0);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         arm.setPower(.3);
-        private int angle_offset = getAngle();
+        angle_offset = getAngle();
         angle = angle_offset;
     }
+    
+    private double angle_offset;
 
     /**
      * @return arm angle in degrees
