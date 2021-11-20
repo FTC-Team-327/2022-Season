@@ -11,6 +11,8 @@ public class Arm {
     private DcMotor motor;
     private CRServo intake;
 
+    private int ENCODER_TICKS = 537.7;
+
     // ---------------- Constructors
 
     /**
@@ -22,6 +24,8 @@ public class Arm {
         this.intake = intake;
 
         this.motor.setDirection(DcMotor.Direction.REVERSE);
+        this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
     }
 
@@ -92,6 +96,17 @@ public class Arm {
 
     public void enableEncoders() {
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    /**
+     * @return arm angle in degrees
+     */
+    public int getAngle() { return (arm.getCurrentPosition() / ENCODER_TICKS) * 360 }
+
+    public int angleToTicks(int angle) { return (angle / 360) * ENCODER_TICKS }
+
+    public void setAngle(int angle) { arm.setTargetPosition(angleToTicks(angle) }
 
     }
 
@@ -99,10 +114,8 @@ public class Arm {
      * Set the arm position
      */
 
-    public void setArmPosition(double pos, double power) {
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        arm.setTargetPosition(pos);
-        arm.setPower(power);
+    public void setArmPosition(double angle) {
+        setAngle(angle)
         
     }
 
