@@ -98,7 +98,7 @@ public class Arm {
     public void enableEncoders() {
         arm.setTargetPosition(0);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        arm.setPower(.3);
+        arm.setPower(.05);
         angle_offset = getAngle();
         angle = angle_offset;
     }
