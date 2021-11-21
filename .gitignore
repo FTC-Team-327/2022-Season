@@ -30,3 +30,7 @@ build/
 
 *ASUS_PC_01*
 
+.vscode/settings.json
+FtcRobotController/src/main/assets/.UltimateGoal.tflite.icloud
+libs/arm64-v8a/.libVuforia.so.icloud
+libs/armeabi-v7a/.libVuforia.so.icloud
