@@ -24,8 +24,8 @@ public class Arm {
         this.arm = arm;
         this.intake = intake;
 
-        this.arm.setDirection(DcMotor.Direction.REVERSE);
-        this.arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.arm.setDirection(DcMotor.Direction.FORWARD);
+        //this.arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
     }
@@ -54,14 +54,9 @@ public class Arm {
      * 
      */
 
-    public void runArm(float press, double power) {
-        if (press > 0) {
-            arm.setPower(power);
-
-        } else {
-            stopArm();
-
-        }
+    public void runArm(double power) {
+        arm.setPower(power);
+        
     }
 
     /**
@@ -98,7 +93,7 @@ public class Arm {
     public void enableEncoders() {
         arm.setTargetPosition(0);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        arm.setPower(.05);
+        arm.setPower(.1);
         angle_offset = getAngle();
         angle = angle_offset;
     }
@@ -114,7 +109,7 @@ public class Arm {
 
     public double angleToTicks(double angle) { return (angle / 360.0) * ENCODER_TICKS; }
 
-    public void setAngle(double angle) { arm.setTargetPosition((int) angleToTicks(angle)); }
+    public void setAngle(double angle) { arm.setTargetPosition((int)angleToTicks(angle)); }
 
     public double encoderValue() { return arm.getCurrentPosition(); }
 

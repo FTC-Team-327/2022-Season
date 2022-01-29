@@ -34,6 +34,7 @@ public class SimpleTeleOp extends LinearOpMode {
 
         Spinner spinner = new Spinner(hardwareMap.get(DcMotor.class, "spinner"));
         Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "intake"));
+        arm.resetEncoders();
         arm.enableEncoders();
 
 
@@ -67,25 +68,24 @@ public class SimpleTeleOp extends LinearOpMode {
 
             drive.mecdrive(forward, strafe, rotate);
             
-            if (gamepad1.dpad_up)           { arm.changeAngle(1); }  
-            else if (gamepad1.dpad_down)    { arm.changeAngle(-1); }
+        //    if (gamepad1.y)           { arm.runArm(.5); }  
+          //  else if (gamepad1.x)    { arm.runArm(-.5); }
 
+            if (gamepad1.y)           { arm.changeAngle(5); }  
+            else if (gamepad1.x)    { arm.changeAngle(-5); }
             
             if (gamepad1.dpad_left)         { spinner.runSpinner(1, 1); } 
             else if (gamepad1.dpad_right)   { spinner.runSpinner(1, -1); }
+            else { spinner.stopSpinner(); }
             
-            if (gamepad1.x) { spinner.runSpinner(1,0); }
-            
-            if (gamepad1.y) { spinner.stopSpinner(); }
-            
-            if (gamepad1.b) { arm.runIntake(-1); }
-            else if (gamepad1.a) { arm.runIntake(1); }
+            if (gamepad1.b) { arm.runIntake(-2); }
+            else if (gamepad1.a) { arm.runIntake(2); }
             else { arm.stopIntake(); }
         
             
             telemetry.addData("Encoder Value", arm.encoderValue() );
             telemetry.addData("Arm Angle", arm.getAngle() );
-            telemetry.addData("Desired Angle", arm.desiredAngle());
+          // telemetry.addData("Desired Angle", arm.detsiredAngle());
             telemetry.update();
         }
     }
