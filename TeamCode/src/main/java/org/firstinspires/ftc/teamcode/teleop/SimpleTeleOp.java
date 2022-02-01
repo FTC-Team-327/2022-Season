@@ -32,11 +32,13 @@ public class SimpleTeleOp extends LinearOpMode {
             
         });
 
+        // Spinner
         Spinner spinner = new Spinner(hardwareMap.get(DcMotor.class, "spinner"));
+
+        // Arm
         Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"), hardwareMap.get(CRServo.class, "intake"));
         arm.resetEncoders();
         arm.enableEncoders();
-
 
         double forward;
         double strafe;
@@ -50,38 +52,44 @@ public class SimpleTeleOp extends LinearOpMode {
         
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            // Run
-            
-            double x_multiplier = 1.5;
-            double y_multiplier = 1.5;
-            
-            if (gamepad1.left_trigger > 0) { x_multiplier = 2; }
-            
-            if (gamepad1.right_trigger > 0) { y_multiplier = 2; }
-            
-            forward = gamepad1.left_stick_y * y_multiplier;
-            strafe = gamepad1.left_stick_x * x_multiplier;
-            rotate = gamepad1.right_stick_x;
-            
-            if (gamepad1.left_bumper) { strafe = -1; } 
-            else if (gamepad1.right_bumper) { strafe = 1; }
+            // ----------------------- Drive
 
+            // Run
+            double x_multiplier = 1;
+            double y_multiplier = 1;
+            
+            // Driver gamepad speed modifier
+            if (gamepad1.left_trigger > (long) 0.10)  { x_multiplier = 2; }
+            if (gamepad1.right_trigger > (long) 0.10) { y_multiplier = 2; }
+
+            // Manipulator gamepad speed modifier
+            if (gamepad2.left_trigger > (long) 0.10)  { x_multiplier = 1; }
+            if (gamepad2.right_trigger > (long) 0.10) { y_multiplier = 1; }
+
+            // Drive speeds
+            forward =   (gamepad1.left_stick_y + gamepad2.left_stick_y) * y_multiplier;
+            strafe =    (gamepad1.left_stick_x + gamepad2.left_stick_x) * x_multiplier;
+            rotate =    -(gamepad1.right_stick_x + gamepad2.right_stick_x);
+            
+            // Strafe
+            if (gamepad1.left_bumper || gamepad2.left_bumper)           { strafe = -1; } 
+            else if (gamepad1.right_bumper || gamepad2.right_bumper)    { strafe = 1; }
+
+            // Drive
             drive.mecdrive(forward, strafe, rotate);
             
-        //    if (gamepad1.y)           { arm.runArm(.5); }  
-          //  else if (gamepad1.x)    { arm.runArm(-.5); }
+            // ----------------------- Arm/Spinner Control
 
-            if (gamepad1.y)           { arm.changeAngle(5); }  
-            else if (gamepad1.x)    { arm.changeAngle(-5); }
+            if (gamepad1.y || gamepad2.y)         { arm.changeAngle(5); }  
+            else if (gamepad1.x || gamepad2.x)    { arm.changeAngle(-5); }
             
-            if (gamepad1.dpad_left)         { spinner.runSpinner(1, 1); } 
-            else if (gamepad1.dpad_right)   { spinner.runSpinner(1, -1); }
-            else { spinner.stopSpinner(); }
+            if (gamepad1.dpad_left || gamepad2.dpad_left)           { spinner.runSpinner(.75); } 
+            else if (gamepad1.dpad_right || gamepad2.dpad_right)    { spinner.runSpinner(-.75); }
+            else                                                    { spinner.stopSpinner(); }
             
-            if (gamepad1.b) { arm.runIntake(-2); }
-            else if (gamepad1.a) { arm.runIntake(2); }
-            else { arm.stopIntake(); }
-        
+            if (gamepad1.b || gamepad2.b)       { arm.runIntake(-2); }
+            else if (gamepad1.a || gamepad2.a)  { arm.runIntake(2); }
+            else                                { arm.stopIntake(); }
             
             telemetry.addData("Encoder Value", arm.encoderValue() );
             telemetry.addData("Arm Angle", arm.getAngle() );

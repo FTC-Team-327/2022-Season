@@ -60,6 +60,12 @@ public class Drive {
             }
         }
 
+        // Zero power behavior
+        for (DcMotor motor : motors) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        }
+
         resetEncoders();
         enableEncoders();
 
