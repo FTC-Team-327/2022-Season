@@ -31,21 +31,15 @@ public class Spinner {
     // ---------------- Move
 
     /**
-     * 
+     * Run the spinner
      */
 
-    public void runSpinner(float press, double power) {
-        if (press > 0) {
-            motor.setPower(power);
-
-        } else {
-            stopSpinner();
-
-        }
+    public void runSpinner(double power) {
+        motor.setPower(power);
     }
 
     /**
-     * 
+     * Stop the spinner
      */
 
     public void stopSpinner() {
@@ -53,6 +47,4 @@ public class Spinner {
 
     }
 
-}
-    
 }

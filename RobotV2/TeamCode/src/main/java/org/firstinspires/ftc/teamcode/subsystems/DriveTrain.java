@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 /**
  * Drive Train
  */
@@ -16,10 +19,13 @@ public class DriveTrain {
 
     /** Front Left Dc_Motor */
     public final int FRONT_LEFT_MOTOR = 0;
+    
     /** Front Right Dc_Motor */
     public final int FRONT_RIGHT_MOTOR = 1;
+    
     /** Rear Left Dc_Motor */
     public final int REAR_LEFT_MOTOR = 2;
+    
     /** Rear Right Dc_Motor */
     public final int REAR_RIGHT_MOTOR = 3;
 
@@ -36,7 +42,7 @@ public class DriveTrain {
      * @param motors Motor array
      */
 
-    public Drive(DcMotor[] motors) {
+    public DriveTrain(DcMotor[] motors) {
         // Set the global motor list
         this.motors = motors;
 
@@ -66,6 +72,26 @@ public class DriveTrain {
         //enableEncoders();
 
     }
+    
+    /**
+     * Drive constructor (See public ints for indexes)
+     * 
+     * @param motor_ids Motor ids from hardware map
+     * @param hardware_map Hardware mapper
+     */
+
+    public DriveTrain(String[] motors, HardwareMap hardware_map) {
+        // Set the global motor list
+        DcMotors defined_motors = new DcMotor[motors.length];
+        
+        for (int i = 0; i < motors.length; i++) {
+            defined_motors[i] = hardware_map.get(DcMotos.class, motors[i]);
+            
+        }
+
+        this(defined_motors);
+
+    }
 
     /**
      * Drive constructor
@@ -76,7 +102,7 @@ public class DriveTrain {
      * @param rear_right_motor rear right motor
      */
 
-    public Drive(DcMotor front_left_motor, DcMotor front_right_motor, DcMotor rear_left_motor, DcMotor rear_right_motor) {
+    public DriveTrain(DcMotor front_left_motor, DcMotor front_right_motor, DcMotor rear_left_motor, DcMotor rear_right_motor) {
         motors = new DcMotor[4];
         
         motors[FRONT_LEFT_MOTOR] = front_left_motor;
@@ -140,7 +166,7 @@ public class DriveTrain {
      * 
      */
 
-    public void mecdrive(double forward, double strafe, double rotate) {
+    public void mecDrive(double forward, double strafe, double rotate) {
         // strafe is reversed
         strafe = strafe * -1;
 
