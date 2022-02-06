@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name="Teleop", group="Linear Opmode")
+@TeleOp(name="Drive Only", group="Linear Opmode")
 
-public class Teleop extends LinearOpMode {
+public class DriveOnly extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
