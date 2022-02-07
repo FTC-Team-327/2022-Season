@@ -79,6 +79,8 @@ public class ChassisSensors {
             range_sensor_data_ultrasonic[i] = range_sensors[i].rawUltrasonic();
             range_sensor_data_optical[i] = range_sensors[i].rawOptical();
 
+            telemetry.addData("Range Sensor " + i, range_sensor_data_ultrasonic[i]);
+
         }
     }
     
