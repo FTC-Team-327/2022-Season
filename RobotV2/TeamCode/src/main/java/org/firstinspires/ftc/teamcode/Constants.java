@@ -76,5 +76,16 @@ public class Constants {
     
     /** Spinner Range Sensor Tolerance */
     public static final double spinner_range_sensor_tolerance = 0.0;
+
+
+
+    // -------------------- Elevator 
+
+    /** Elevator Slider Motor */
+    public static final String elevator_motor_name = "slider";
+
+    /** Elevator Slider Motor */
+    public static final String elevator_bottom_limit_switch_name = "slider_bottom_limit";
+
     
 }
