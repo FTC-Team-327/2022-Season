@@ -50,6 +50,11 @@ public class DriveOnly extends LinearOpMode {
             // Drive
             robot.drivetrain.mecDrive(forward, strafe, rotate);
 
+
+            
+
+            // Update telemetry
+            telemetry.update();
             
         }
     }

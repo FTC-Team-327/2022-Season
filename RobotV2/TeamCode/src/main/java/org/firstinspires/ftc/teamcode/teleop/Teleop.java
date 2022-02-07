@@ -50,6 +50,12 @@ public class Teleop extends LinearOpMode {
             // Drive
             robot.drivetrain.mecDrive(forward, strafe, rotate);
 
+
+
+
+            
+            // Update telemetry
+            telemetry.update();
             
         }
     }

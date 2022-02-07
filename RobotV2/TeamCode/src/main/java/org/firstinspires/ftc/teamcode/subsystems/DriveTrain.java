@@ -13,26 +13,26 @@ public class DriveTrain {
 	// --------------------- Motor array indexes
 
 	/** Front Left Dc_Motor */
-	public final int FRONT_LEFT_MOTOR = 0;
+	private final int FRONT_LEFT_MOTOR = 0;
 	
 	/** Front Right Dc_Motor */
-	public final int FRONT_RIGHT_MOTOR = 1;
+	private final int FRONT_RIGHT_MOTOR = 1;
 	
 	/** Rear Left Dc_Motor */
-	public final int REAR_LEFT_MOTOR = 2;
+	private final int REAR_LEFT_MOTOR = 2;
 	
 	/** Rear Right Dc_Motor */
-	public final int REAR_RIGHT_MOTOR = 3;
+	private final int REAR_RIGHT_MOTOR = 3;
 
 	// --------------------- Motor objects
 
 	/** Motors */
-	public DcMotor[] motors;
+	private DcMotor[] motors;
 	
 	// --------------------- Telemetry
 
 	/** Telemetry */
-	public Telemetry telemetry;
+	private Telemetry telemetry;
 
 	// --------------------- Constructors
 
@@ -181,8 +181,6 @@ public class DriveTrain {
 			}
 		}
 		
-		telemetry.update();
-		
 	}
 
 	/**
@@ -221,8 +219,6 @@ public class DriveTrain {
 			setPower(i, speeds[i]);
 			
 		}
-		
-		telemetry.update();
 		
 		//motors[FRONT_LEFT_MOTOR].setPower(speeds[0]);
 		//motors[FRONT_RIGHT_MOTOR].setPower(speeds[1]);
