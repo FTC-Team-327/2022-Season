@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import com.qualcomm.robotcore.eventloop.EventLoopManager;
-import org.firstinspires.ftc.robotcore.external.Const;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -28,6 +28,9 @@ public class OurRobot {
 	
 	/** Spinner */
 	public Spinner spinner;
+
+	/** Intake */
+	public Intake intake;
 	
 	// ------ Init
 	
@@ -66,6 +69,9 @@ public class OurRobot {
 		
 		// Initialize Spinner
 		initSpinner();
+
+		// Initialize Intake
+		initIntake();
 		
 		// Post update
 		telemetry.addData("Status", "Initialized");
@@ -122,6 +128,16 @@ public class OurRobot {
 	private void initSpinner() {
 		// Spinner
 		spinner = new Spinner(hardware_map.get(DcMotor.class, Constants.spinner_motor_name));
+		
+	}
+
+	/**
+	 * Initialize Intake
+	 */
+	 
+	private void initIntake() {
+		// Spinner
+		intake = new Intake(hardware_map.get(DcMotor.class, Constants.intake_motor_name));
 		
 	}
 
