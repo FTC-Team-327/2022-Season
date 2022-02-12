@@ -87,5 +87,15 @@ public class Constants {
     /** Elevator Slider Motor */
     public static final String elevator_bottom_limit_switch_name = "slider_bottom_limit";
 
+    /** Elevator Scoop Servo */
+    public static final String scoop_servo_name = "scoop";
+
+
+
+    // -------------------- Intake 
+
+    /** Intake Motor */
+    public static final String intake_motor_name = "intake";
+
     
 }
