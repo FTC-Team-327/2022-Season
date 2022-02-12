@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Constants;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -40,6 +42,7 @@ public class DriveTrain {
 	 * Drive constructor (See public ints for indexes)
 	 * 
 	 * @param motors Motor array
+	 * @param telemetry Robot telemetry pass-through
 	 */
 
 	public DriveTrain(DcMotor[] motors, Telemetry telemetry) {
@@ -59,6 +62,7 @@ public class DriveTrain {
 	 * 
 	 * @param motor_ids Motor ids from hardware map
 	 * @param hardware_map Hardware mapper
+	 * @param telemetry Robot telemetry pass-through
 	 */
 
 	public DriveTrain(String[] motors, HardwareMap hardware_map, Telemetry telemetry) {
@@ -76,6 +80,33 @@ public class DriveTrain {
 
 		// Config motors
 		configureMotors();
+
+	}
+
+	
+	/**
+	 * Drive constructor (See public ints for indexes). Uses assumed names from constants
+	 * 
+	 * @see org.firstinspires.ftc.teamcode.Constants
+	 * 
+	 * @param hardware_map Hardware mapper
+	 * @param telemetry Robot telemetry pass-through
+	 */
+
+	public DriveTrain(HardwareMap hardware_map, Telemetry telemetry) {
+		this(
+			new String[] { 
+				Constants.front_left_motor_name,  
+				Constants.front_right_motor_name,
+				Constants.rear_left_motor_name.
+				Constants.rear_right_motor_name
+				
+			},
+
+			hardware_map,
+			telemetry
+
+		)
 
 	}
 
