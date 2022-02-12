@@ -5,6 +5,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import com.qualcomm.robotcore.eventloop.EventLoopManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -31,6 +32,9 @@ public class OurRobot {
 
 	/** Intake */
 	public Intake intake;
+
+	/** Elevator */
+	public Elevator elevator;
 	
 	// ------ Init
 	
@@ -72,6 +76,9 @@ public class OurRobot {
 
 		// Initialize Intake
 		initIntake();
+
+		// Initialize Elevator
+		initElevator();
 		
 		// Post update
 		telemetry.addData("Status", "Initialized");
@@ -136,9 +143,22 @@ public class OurRobot {
 	 */
 	 
 	private void initIntake() {
-		// Spinner
+		// Intake
 		intake = new Intake(hardware_map.get(DcMotor.class, Constants.intake_motor_name));
 		
+	}
+
+	/**
+	 * Initialize Elevator
+	 */
+	 
+	private void initElevator() {
+		// Elevator
+		elevator = new Elevator(
+			hardware_map.get(DcMotor.class, Constants.intake_motor_name),
+			hardware_map.get(Servo.class, Constants.scoop_servo_name)
+
+		);
 	}
 
 }
