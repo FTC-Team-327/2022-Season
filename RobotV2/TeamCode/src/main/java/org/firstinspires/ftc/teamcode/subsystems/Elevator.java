@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,137 +15,165 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Elevator {
 
-    // ---------------- Declarations
+	// ---------------- Declarations
 
-    /** Motor for the Elevator  */
-    private DcMotor motor;
+	/** Motor for the Elevator  */
+	private DcMotor motor;
 
-    /** Servo for the scoop  */
-    private Servo scoop;
+	/** Servo for the scoop  */
+	private Servo servo;
+	
+	// ---------------- Telemetry
+	
+	private Telemetry telemetry;
 
-    // ---------------- Constructors
+	// ---------------- Constructors
 
-    /**
-     * Constructor
-     * 
-     * @param motor Motor to assign to the Elevator
-     * @param servo Servo to assign to the scoop
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param motor Motor to assign to the Elevator
+	 * @param servo Servo to assign to the scoop
+	 * @param telemetry Telemetry pass through
+	 */
 
-    public Elevator(DcMotor motor, Servo servo) {
-        this.motor = motor;
-        this.scoop = scoop;
+	public Elevator(DcMotor motor, Servo servo, Telemetry telemetry) {
+		this.motor = motor;
+		this.servo = servo;
+		
+		this.telemetry = telemetry;
 
-        this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.servo.setDirection(Servo.Direction.REVERSE);
 
-    }
+	}
 
-    /**
-     * Constructor
-     * 
-     * @param motor Name of the motor from the robot configuration for the elevator
-     * @param servo Name of the servo from the robot configuration for the scoop
-     * @param hardware_map Maps the hardware given the string name of the motor
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param motor Name of the motor from the robot configuration for the elevator
+	 * @param servo Name of the servo from the robot configuration for the scoop
+	 * @param hardware_map Maps the hardware given the string name of the motor
+	 * @param telemetry Telemetry pass through
+	 */
 
-    public Elevator(String motor, String servo, HardwareMap hardware_map) {
-        this.motor = hardware_map.get(DcMotor.class, motor);
-        this.scoop = hardware_map.get(Servo.class, servo);
+	public Elevator(String motor, String servo, HardwareMap hardware_map, Telemetry telemetry) {
+		this.motor = hardware_map.get(DcMotor.class, motor);
+		this.servo = hardware_map.get(Servo.class, servo);
+		
+		this.telemetry = telemetry;
 
-        this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.servo.setDirection(Servo.Direction.REVERSE);
 
-    }
+	}
 
-    /**
-     * Constructor. Uses the assumed motor from the Constants class
-     * 
-     * @see org.firstinspires.ftc.teamcode.Constants
-     * 
-     * @param hardware_map Maps the hardware given the string name of the motor
-     */
+	/**
+	 * Constructor. Uses the assumed motor from the Constants class
+	 * 
+	 * @see org.firstinspires.ftc.teamcode.Constants
+	 * 
+	 * @param hardware_map Maps the hardware given the string name of the motor
+	 * @param telemetry Telemetry pass through
+	 */
 
-    public Elevator(HardwareMap hardware_map) {
-        this.motor = hardware_map.get(DcMotor.class, Constants.elevator_motor_name);
-        this.scoop = hardware_map.get(DcMotor.class, Constants.scoop_servo_name);
+	public Elevator(HardwareMap hardware_map, Telemetry telemetry) {
+		this.motor = hardware_map.get(DcMotor.class, Constants.elevator_motor_name);
+		this.servo = hardware_map.get(Servo.class, Constants.scoop_servo_name);
+		
+		this.telemetry = telemetry;
 
-        this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.servo.setDirection(Servo.Direction.REVERSE);
 
-    }
+	}
 
-    // ---------------- Move
+	// ---------------- Move
 
-    /**
-     * Reverses the motor direction
-     */
+	/**
+	 * Reverses the motor direction
+	 */
 
-    public void reverseElevatorDirection() {
-        motor.setDirection(DcMotor.Direction.REVERSE);
+	public void reverseElevatorDirection() {
+		motor.setDirection(DcMotor.Direction.REVERSE);
 
-    }
+	}
 
-    /**
-     * Un-reverses motor direction
-     */
+	/**
+	 * Un-reverses motor direction
+	 */
 
-    public void forwardElevatorDirection() {
-        motor.setDirection(DcMotor.Direction.FORWARD);
+	public void forwardElevatorDirection() {
+		motor.setDirection(DcMotor.Direction.FORWARD);
 
-    }
+	}
+	
+	/**
+	 * Reverses the servo direction
+	 */
 
-    /**
-     * Run the Elevator
-     * 
-     * @param power Power (-1, 1) to run motor
-     */
+	public void reverseScoopDirection() {
+		servo.setDirection(Servo.Direction.REVERSE);
 
-    public void runElevator(double power) {
-        motor.setPower(power);
-    }
+	}
 
-    /**
-     * Run the Elevator at max speed
-     */
+	/**
+	 * Un-reverses servo direction
+	 */
 
-    public void runElevator() {
-        runElevator(1.0);
-    }
+	public void forwardScoopDirection() {
+		servo.setDirection(Servo.Direction.FORWARD);
 
-    /**
-     * Stop the Elevator
-     */
+	}
 
-    public void stopElevator() {
-        motor.setPower(0);
+	/**
+	 * Run the Elevator
+	 * 
+	 * @param power Power (-1, 1) to run motor
+	 */
 
-    }
+	public void runElevator(double power) {
+		motor.setPower(power);
+	}
 
-     /**
-     * Run the Intake at max speed
-     */
+	/**
+	 * Run the Elevator at max speed
+	 */
 
-    public void runIntake(double power) {
-        intake.setPower(power);
+	public void runElevator() {
+		runElevator(1.0);
+	}
 
-    }
+	/**
+	 * Stop the Elevator
+	 */
 
-     /**
-     * Run the Intake
-     * 
-     * @param power Power (-1, 1) to run motor
-     */
+	public void stopElevator() {
+		motor.setPower(0);
 
-    public void runIntake() {
-        intake.setPower();
+	}
 
-    }
+	 /**
+	 * Run the scoop
+	 * 
+	 * @param pos position
+	 */
 
-    /**
-     * Stop the intake
-     */
+	public void setScoopPos(double pos) {
+		servo.setPosition(pos);
+		telemetry.addData("Scoop Position: ", getScoopPos());
 
-    public void stopIntake() {
-        intake.setPower(0);
+	}
+	
+	/**
+	 * Get the scoop position
+	 * 
+	 * @return scoop position
+	 */
 
-    }
+	public double getScoopPos() {
+		return servo.getPosition();
+		
+	}
 
 }
