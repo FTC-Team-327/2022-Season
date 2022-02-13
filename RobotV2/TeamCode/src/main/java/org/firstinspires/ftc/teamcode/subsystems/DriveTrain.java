@@ -98,7 +98,7 @@ public class DriveTrain {
 			new String[] { 
 				Constants.front_left_motor_name,  
 				Constants.front_right_motor_name,
-				Constants.rear_left_motor_name.
+				Constants.rear_left_motor_name,
 				Constants.rear_right_motor_name
 				
 			},
@@ -106,7 +106,7 @@ public class DriveTrain {
 			hardware_map,
 			telemetry
 
-		)
+		);
 
 	}
 
