@@ -1,87 +1,95 @@
+package org.firstinspires.ftc.teamcode.subsystems;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Constants;
+
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+
 public class ChassisSensors {
 
-    // --------------------- Range Sensors
+	// --------------------- Range Sensors
 
-    /** Chassis range sensors */
-    private ModernRoboticsI2cRangeSensor[] range_sensors;
+	/** Chassis range sensors */
+	private ModernRoboticsI2cRangeSensor[] range_sensors;
 
-    /** Ultrasonic range sensor data */
-    private double[] range_sensor_data_ultrasonic;
+	/** Ultrasonic range sensor data */
+	private double[] range_sensor_data_ultrasonic;
 
-    /** Optical range sensor data */
-    private double[] range_sensor_data_optical;
+	/** Optical range sensor data */
+	private double[] range_sensor_data_optical;
 
-    /** Are the sensors initialized? */
-    public boolean range_sensors_initialized = false;
+	/** Are the sensors initialized? */
+	public boolean range_sensors_initialized = false;
 
-    /** Front range sensor array index */
-    public static final int FRONT_RANGE_SENSOR = 0;
+	/** Front range sensor array index */
+	public static final int FRONT_RANGE_SENSOR = 0;
 
-    /** Left range sensor array index */
-    public static final int LEFT_RANGE_SENSOR = 1;
+	/** Left range sensor array index */
+	public static final int LEFT_RANGE_SENSOR = 1;
 
-    /** Right range sensor array index */
-    public static final int RIGHT_RANGE_SENSOR = 2;
+	/** Right range sensor array index */
+	public static final int RIGHT_RANGE_SENSOR = 2;
 
 
-    // --------------------- Telemetry
+	// --------------------- Telemetry
 
 	/** Telemetry */
 	private Telemetry telemetry;
 
-    // --------------------- Hardware Map
+	// --------------------- Hardware Map
 
-    /** Hardware Map */
+	/** Hardware Map */
 	public HardwareMap hardware_map;
 
 	// --------------------- Constructors
 
-    /**
-     * Setup the chassis sensors
-     */
+	/**
+	 * Setup the chassis sensors
+	 */
 
-    public ChassisSensors(Telemetry telemetry, HardwareMap hardware_map) {
-        this.telemetry = telemetry;
-        this.hardware_map = hardware_map;
+	public ChassisSensors(Telemetry telemetry, HardwareMap hardware_map) {
+		this.telemetry = telemetry;
+		this.hardware_map = hardware_map;
 
-    }
+	}
 
-    // --------------------- Init
+	// --------------------- Init
 
-    /**
-     * Initialize the chassis range sensors
-     */
+	/**
+	 * Initialize the chassis range sensors
+	 */
 
-    public void initRange() {
-        // Setup sensors
-        range_sensors[FRONT_RANGE_SENSOR] = hardware_map.get(ModernRoboticsI2cRangeSensor.class, Constants.chassis_front_range_name);
-        range_sensors[LEFT_RANGE_SENSOR] = hardware_map.get(ModernRoboticsI2cRangeSensor.class, Constants.chassis_left_range_name);
-        range_sensors[RIGHT_RANGE_SENSOR] = hardware_map.get(ModernRoboticsI2cRangeSensor.class, Constants.chassis_right_range_name);
+	public void initRange() {
+		// Setup sensors
+		range_sensors[FRONT_RANGE_SENSOR] = hardware_map.get(ModernRoboticsI2cRangeSensor.class, Constants.chassis_front_range_name);
+		range_sensors[LEFT_RANGE_SENSOR] = hardware_map.get(ModernRoboticsI2cRangeSensor.class, Constants.chassis_left_range_name);
+		range_sensors[RIGHT_RANGE_SENSOR] = hardware_map.get(ModernRoboticsI2cRangeSensor.class, Constants.chassis_right_range_name);
 
-        // Set boolean
-        range_sensors_initialized = true;
+		// Set boolean
+		range_sensors_initialized = true;
 
-        // Poll rage
-        pollRange();
+		// Poll rage
+		pollRange();
 
-    }
+	}
 
-    // --------------------- Operations
+	// --------------------- Operations
 
-    /**
-     * Poll the chassis range sensors
-     */
+	/**
+	 * Poll the chassis range sensors
+	 */
 
-    public void pollRange() {
-        if (!range_sensors_initialized) { return; }
+	public void pollRange() {
+		if (!range_sensors_initialized) { return; }
 
-        for (int i = 0; i < range_sensors.length; i++) {
-            range_sensor_data_ultrasonic[i] = range_sensors[i].rawUltrasonic();
-            range_sensor_data_optical[i] = range_sensors[i].rawOptical();
+		for (int i = 0; i < range_sensors.length; i++) {
+			range_sensor_data_ultrasonic[i] = range_sensors[i].rawUltrasonic();
+			range_sensor_data_optical[i] = range_sensors[i].rawOptical();
 
-            telemetry.addData("Range Sensor " + i, range_sensor_data_ultrasonic[i]);
+			telemetry.addData("Range Sensor " + i, range_sensor_data_ultrasonic[i]);
 
-        }
-    }
-    
+		}
+	}
+	
 }
