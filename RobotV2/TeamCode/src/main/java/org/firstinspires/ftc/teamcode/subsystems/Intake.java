@@ -13,100 +13,100 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
 
-    // ---------------- Declarations
+	// ---------------- Declarations
 
-    /** Motor for the intake wheel */
-    private DcMotor motor;
+	/** Motor for the intake wheel */
+	private DcMotor motor;
 
-    // ---------------- Constructors
+	// ---------------- Constructors
 
-    /**
-     * Constructor
-     * 
-     * @param motor Motor to assign to the intake
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param motor Motor to assign to the intake
+	 */
 
-    public Intake(DcMotor motor) {
-        this.motor = motor;
+	public Intake(DcMotor motor) {
+		this.motor = motor;
 
-        this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
-    }
+	}
 
-    /**
-     * Constructor
-     * 
-     * @param motor Name of the motor from the robot configuration
-     * @param hardware_map Maps the hardware given the string name of the motor
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param motor Name of the motor from the robot configuration
+	 * @param hardware_map Maps the hardware given the string name of the motor
+	 */
 
-    public Intake(String motor, HardwareMap hardware_map) {
-        this.motor = hardware_map.get(DcMotor.class, motor);
+	public Intake(String motor, HardwareMap hardware_map) {
+		this.motor = hardware_map.get(DcMotor.class, motor);
 
-        this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
-    }
+	}
 
-    /**
-     * Constructor. Uses the assumed motor from the Constants class
-     * 
-     * @see org.firstinspires.ftc.teamcode.Constants
-     * 
-     * @param hardware_map Maps the hardware given the string name of the motor
-     */
+	/**
+	 * Constructor. Uses the assumed motor from the Constants class
+	 * 
+	 * @see org.firstinspires.ftc.teamcode.Constants
+	 * 
+	 * @param hardware_map Maps the hardware given the string name of the motor
+	 */
 
-    public Intake(HardwareMap hardware_map) {
-        this.motor = hardware_map.get(DcMotor.class, Constants.intake_motor_name);
+	public Intake(HardwareMap hardware_map) {
+		this.motor = hardware_map.get(DcMotor.class, Constants.intake_motor_name);
 
-        this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
-    }
+	}
 
-    // ---------------- Move
+	// ---------------- Move
 
-    /**
-     * Reverses the motor direction
-     */
+	/**
+	 * Reverses the motor direction
+	 */
 
-    public void reverseDirection() {
-        motor.setDirection(DcMotor.Direction.REVERSE);
+	public void reverseDirection() {
+		motor.setDirection(DcMotor.Direction.REVERSE);
 
-    }
+	}
 
-    /**
-     * Un-reverses motor direction
-     */
+	/**
+	 * Un-reverses motor direction
+	 */
 
-    public void forwardDirection() {
-        motor.setDirection(DcMotor.Direction.FORWARD);
+	public void forwardDirection() {
+		motor.setDirection(DcMotor.Direction.FORWARD);
 
-    }
+	}
 
-    /**
-     * Run the spinner
-     * 
-     * @param power Power (-1, 1) to run motor
-     */
+	/**
+	 * Run the spinner
+	 * 
+	 * @param power Power (-1, 1) to run motor
+	 */
 
-    public void runIntake(double power) {
-        motor.setPower(power);
-    }
+	public void runIntake(double power) {
+		motor.setPower(power);
+	}
 
-    /**
-     * Run the spinner at max speed
-     */
+	/**
+	 * Run the spinner at max speed
+	 */
 
-    public void runIntake() {
-        runSpinner(1.0);
-    }
+	public void runIntake() {
+		runIntake(1.0);
+	}
 
-    /**
-     * Stop the spinner
-     */
+	/**
+	 * Stop the spinner
+	 */
 
-    public void stopIntake() {
-        motor.setPower(0);
+	public void stopIntake() {
+		motor.setPower(0);
 
-    }
+	}
 
 }
