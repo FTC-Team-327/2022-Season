@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
  * Robot hardware definition
@@ -168,6 +169,7 @@ public class OurRobot {
 		elevator = new Elevator(
 			hardware_map.get(DcMotor.class, Constants.intake_motor_name),
 			hardware_map.get(Servo.class, Constants.scoop_servo_name),
+			hardware_map.get(TouchSensor.class, Constants.elevator_bottom_limit_switch_name),
 			telemetry
 
 		);

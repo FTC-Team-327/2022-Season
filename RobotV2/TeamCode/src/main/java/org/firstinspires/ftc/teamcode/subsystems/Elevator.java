@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
  * Elevator game piece
@@ -22,6 +23,9 @@ public class Elevator {
 
 	/** Servo for the scoop  */
 	private Servo servo;
+
+	/** Limit switch */
+	private TouchSensor limit_switch
 	
 	// ---------------- Telemetry
 	
@@ -34,12 +38,14 @@ public class Elevator {
 	 * 
 	 * @param motor Motor to assign to the Elevator
 	 * @param servo Servo to assign to the scoop
+	 * @param limit_switch Touch sensor to assign as limit switch
 	 * @param telemetry Telemetry pass through
 	 */
 
-	public Elevator(DcMotor motor, Servo servo, Telemetry telemetry) {
+	public Elevator(DcMotor motor, Servo servo, TouchSensor limit_switch, Telemetry telemetry) {
 		this.motor = motor;
 		this.servo = servo;
+		this.limit_switch = limit_switch;
 		
 		this.telemetry = telemetry;
 
@@ -53,13 +59,15 @@ public class Elevator {
 	 * 
 	 * @param motor Name of the motor from the robot configuration for the elevator
 	 * @param servo Name of the servo from the robot configuration for the scoop
+	 * @param limit_switch Touch sensor to assign as limit switch
 	 * @param hardware_map Maps the hardware given the string name of the motor
 	 * @param telemetry Telemetry pass through
 	 */
 
-	public Elevator(String motor, String servo, HardwareMap hardware_map, Telemetry telemetry) {
+	public Elevator(String motor, String servo, String limit_switch, HardwareMap hardware_map, Telemetry telemetry) {
 		this.motor = hardware_map.get(DcMotor.class, motor);
 		this.servo = hardware_map.get(Servo.class, servo);
+		this.limit_switch = hardware_map.get(TouchSensor.class, limit_switch);
 		
 		this.telemetry = telemetry;
 
@@ -80,11 +88,25 @@ public class Elevator {
 	public Elevator(HardwareMap hardware_map, Telemetry telemetry) {
 		this.motor = hardware_map.get(DcMotor.class, Constants.elevator_motor_name);
 		this.servo = hardware_map.get(Servo.class, Constants.scoop_servo_name);
+		this.limit_switch = hardware_map.get(TouchSensor.class, Constants.elevator_bottom_limit_switch_name);
 		
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 		this.servo.setDirection(Servo.Direction.REVERSE);
+
+	}
+
+	// ---------------- Limit Switch
+
+	/**
+	 * Check if the limit switch is pressed
+	 * 
+	 * @return limit switch press status
+	 */
+
+	public boolean pollLimit() {
+		return limit_switch.isPressed();
 
 	}
 
@@ -133,7 +155,10 @@ public class Elevator {
 	 */
 
 	public void runElevator(double power) {
-		motor.setPower(power);
+		if (!pollLimit()) {
+			motor.setPower(power);
+
+		}
 	}
 
 	/**
