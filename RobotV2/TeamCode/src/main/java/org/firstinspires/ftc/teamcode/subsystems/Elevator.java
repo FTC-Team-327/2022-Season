@@ -155,7 +155,7 @@ public class Elevator {
 	 */
 
 	public void runElevator(double power) {
-		if (!pollLimit()) {
+		if (power > 0 || !pollLimit()) {
 			motor.setPower(power);
 
 		}
