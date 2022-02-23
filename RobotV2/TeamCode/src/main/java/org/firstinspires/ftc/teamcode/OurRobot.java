@@ -35,6 +35,9 @@ public class OurRobot {
 
 	/** Elevator */
 	public Elevator elevator;
+
+	/** Topper */
+	public Topper topper;
 	
 	// ------ Init
 	
@@ -79,6 +82,9 @@ public class OurRobot {
 
 		// Initialize Elevator
 		initElevator();
+
+		// Initialize Topper
+		initTopper();
 		
 		// Post update
 		telemetry.addData("Status", "Initialized");
@@ -160,6 +166,16 @@ public class OurRobot {
 			telemetry
 
 		);
+	}
+
+	/**
+	 * Initialize Topper
+	 */
+	 
+	private void initTopper() {
+		// Topper
+		topper = new Topper(hardware_map.get(Servo.class, Constants.topper_servo_name), telemetry);
+		
 	}
 
 }
