@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -12,13 +13,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * By FTC TEAM 327
  */
 
-public class Elevator {
+public class Topper {
 
 	// ---------------- Declarations
 
 
 	/** Servo for the scoop  */
-	private Servo Topper;
+	private CRServo servo;
 	
 	// ---------------- Telemetry
 	
@@ -33,12 +34,12 @@ public class Elevator {
 	 * @param telemetry Telemetry pass through
 	 */
 
-	public Elevator(Servo servo, Telemetry telemetry) {
+	public Topper(CRServo servo, Telemetry telemetry) {
 		this.servo = servo;
 		
 		this.telemetry = telemetry;
 
-		this.servo.setDirection(Servo.Direction.REVERSE);
+		this.servo.setDirection(CRServo.Direction.REVERSE);
 
 	}
 
@@ -50,12 +51,12 @@ public class Elevator {
 	 * @param telemetry Telemetry pass through
 	 */
 
-	public Elevator(String servo, HardwareMap hardware_map, Telemetry telemetry) {
-		this.servo = hardware_map.get(Servo.class, servo);
+	public Topper(String servo, HardwareMap hardware_map, Telemetry telemetry) {
+		this.servo = hardware_map.get(CRServo.class, servo);
 		
 		this.telemetry = telemetry;
 
-		this.servo.setDirection(Servo.Direction.REVERSE);
+		this.servo.setDirection(CRServo.Direction.REVERSE);
 
 	}
 
@@ -68,12 +69,12 @@ public class Elevator {
 	 * @param telemetry Telemetry pass through
 	 */
 
-	public Elevator(HardwareMap hardware_map, Telemetry telemetry) {
-		this.servo = hardware_map.get(Servo.class, Constants.topper_servo_name);
+	public Topper(HardwareMap hardware_map, Telemetry telemetry) {
+		this.servo = hardware_map.get(CRServo.class, Constants.topper_servo_name);
 		
 		this.telemetry = telemetry;
 
-		this.servo.setDirection(Servo.Direction.REVERSE);
+		this.servo.setDirection(CRServo.Direction.REVERSE);
 
 	}
 
@@ -84,7 +85,7 @@ public class Elevator {
 	 */
 
 	public void reverseTopperDirection() {
-		servo.setDirection(Servo.Direction.REVERSE);
+		servo.setDirection(CRServo.Direction.REVERSE);
 
 	}
 
@@ -93,31 +94,20 @@ public class Elevator {
 	 */
 
 	public void forwardTopperDirection() {
-		servo.setDirection(Servo.Direction.FORWARD);
+		servo.setDirection(CRServo.Direction.FORWARD);
 
 	}
 
 	 /**
 	 * Run the topper
 	 * 
-	 * @param pos position
+	 * @param power Power
 	 */
 
-	public void setTopperPos(double pos) {
-		servo.setPosition(pos);
-		telemetry.addData("Topper Position: ", getTopperPos());
+	public void runTopper(double power) {
+		servo.setPower(power);
 
 	}
 	
-	/**
-	 * Get the topper position
-	 * 
-	 * @return topper position
-	 */
-
-	public double getTopperPos() {
-		return servo.getPosition();
-		
-	}
 
 }

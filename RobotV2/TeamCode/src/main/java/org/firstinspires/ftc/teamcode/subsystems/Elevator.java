@@ -25,7 +25,7 @@ public class Elevator {
 	private Servo servo;
 
 	/** Limit switch */
-	private TouchSensor limit_switch
+	private TouchSensor limit_switch;
 	
 	// ---------------- Telemetry
 	
@@ -152,7 +152,7 @@ public class Elevator {
 	 * Disable encoders
 	 */
 
-	private void disableEncoders() {
+	public void disableEncoders() {
 		motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 	}
@@ -161,7 +161,7 @@ public class Elevator {
 	 * Reset encoders
 	 */
 
-	private void resetEncoders() {
+	public void resetEncoders() {
 		motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 	}
@@ -202,7 +202,7 @@ public class Elevator {
 	 * @return Encoder position
 	 */
 
-	private double getEncoderPosition() {
+	public double getEncoderPosition() {
 		double position = motor.getCurrentPosition();
 		telemetry.addData("Elevator Motor Position: ", position);
 

@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import org.firstinspires.ftc.teamcode.subsystems.*;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import com.qualcomm.robotcore.eventloop.EventLoopManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -144,7 +146,7 @@ public class OurRobot {
 		// Spinner
 		spinner = new Spinner(
 			hardware_map.get(DcMotor.class, Constants.spinner_motor_name),
-			hardware_map.get(ColorSensor.class, Constants.spinner_range_sensor_name);
+			hardware_map.get(DistanceSensor.class, Constants.spinner_range_sensor_name),
 			telemetry
 			
 		);
@@ -157,8 +159,8 @@ public class OurRobot {
 	private void initIntake() {
 		// Intake
 		intake = new Intake(
-			hardware_map.get(DcMotor.class, Constants.intake_motor_name)
-			hardware_map.get(ColorSensor.class, Constants.intake_sensor_name)
+			hardware_map.get(DcMotor.class, Constants.intake_motor_name),
+			hardware_map.get(DistanceSensor.class, Constants.intake_sensor_name),
 			telemetry
 
 		);
@@ -185,7 +187,7 @@ public class OurRobot {
 	 
 	private void initTopper() {
 		// Topper
-		topper = new Topper(hardware_map.get(Servo.class, Constants.topper_servo_name), telemetry);
+		topper = new Topper(hardware_map.get(CRServo.class, Constants.topper_servo_name), telemetry);
 		
 	}
 

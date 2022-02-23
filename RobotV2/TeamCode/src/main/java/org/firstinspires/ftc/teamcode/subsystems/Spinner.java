@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import java.util.Locale;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 /**
  * Spinner game piece that turns the duck wheel
@@ -21,7 +24,7 @@ public class Spinner {
 	private DcMotor motor;
 
 	/** Color sensor to detect cargo presence */
-	private ColorSensor color_sensor;
+	private DistanceSensor distance_sensor;
 
 	// ---------------- Telemetry
 	
@@ -33,13 +36,13 @@ public class Spinner {
 	 * Constructor
 	 * 
 	 * @param motor Motor to assign to the spinner
-	 * @param color_sensor Color sensor to detect spinner
+	 * @param distance_sensor Color sensor to detect spinner
 	 * @param telemetry Telemetry pass through
 	 */
 
-	public Spinner(DcMotor motor, ColorSensor color_sensor, Telemetry telemetry) {
+	public Spinner(DcMotor motor, DistanceSensor distance_sensor, Telemetry telemetry) {
 		this.motor = motor;
-		this.color_sensor = color_sensor;
+		this.distance_sensor = distance_sensor;
 		
 		this.telemetry = telemetry;
 
@@ -50,14 +53,14 @@ public class Spinner {
 	/**
 	 * Constructor
 	 * 
-	 * @param color_sensor Color sensor to detect spinner
+	 * @param distance_sensor Color sensor to detect spinner
 	 * @param telemetry Telemetry pass through
 	 * @param hardware_map Maps the hardware given the string name of the motor
 	 */
 
-	public Spinner(String motor, String color_sensor, HardwareMap hardware_map, Telemetry telemetry) {
+	public Spinner(String motor, String distance_sensor, HardwareMap hardware_map, Telemetry telemetry) {
 		this.motor = hardware_map.get(DcMotor.class, motor);
-		this.color_sensor = hardware_map.get(ColorSensor.class, color_sensor);
+		this.distance_sensor = hardware_map.get(DistanceSensor.class, distance_sensor);
 
 		this.telemetry = telemetry;
 
@@ -75,7 +78,7 @@ public class Spinner {
 
 	public Spinner(HardwareMap hardware_map) {
 		this.motor = hardware_map.get(DcMotor.class, Constants.intake_motor_name);
-		this.color_sensor = hardware_map.get(ColorSensor.class, Constants.spinner_range_sensor_name);
+		this.distance_sensor = hardware_map.get(DistanceSensor.class, Constants.spinner_range_sensor_name);
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
@@ -88,8 +91,8 @@ public class Spinner {
 	 */
 
 	public double pollDistance() {
-		double distance = sensorDistance.getDistance(DistanceUnit.CM));
-		telemetry.addData("Spinner Presence Distance (cm)", String.format(Locale.US, "%.02f", distance);
+		double distance = distance_sensor.getDistance(DistanceUnit.CM);
+		telemetry.addData("Spinner Presence Distance (cm)", String.format(Locale.US, "%.02f", distance));
 
 		return distance;
 
@@ -100,8 +103,9 @@ public class Spinner {
 	 */
 
 	public boolean detectPresence() {
-		boolean presence = pollDistance() > Constants.spinner_range_sensor_offset && pollDistance < Constants.spinner_range_sensor_tolerance;
-		telemetry.addData("Spinner Present: " + presence);
+		double distance = (pollDistance() + pollDistance() + pollDistance()) / 3;
+		boolean presence = (distance > Constants.spinner_range_sensor_offset) && (distance < Constants.spinner_range_sensor_tolerance);
+		telemetry.addData("Spinner Present: ", presence);
 
 		return presence;
 		
@@ -131,7 +135,7 @@ public class Spinner {
 	 * Disable encoders
 	 */
 
-	private void disableEncoders() {
+	public void disableEncoders() {
 		motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 	}
@@ -140,7 +144,7 @@ public class Spinner {
 	 * Reset encoders
 	 */
 
-	private void resetEncoders() {
+	public void resetEncoders() {
 		motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 	}
@@ -178,7 +182,7 @@ public class Spinner {
 	 * @return Encoder position
 	 */
 
-	private double getEncoderPosition() {
+	public double getEncoderPosition() {
 		double position = motor.getCurrentPosition();
 		telemetry.addData("Spinner Motor Position: ", position);
 

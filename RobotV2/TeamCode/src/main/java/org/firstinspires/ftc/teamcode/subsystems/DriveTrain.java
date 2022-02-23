@@ -170,7 +170,7 @@ public class DriveTrain {
 	 * Disable encoders
 	 */
 
-	private void disableEncoders() {
+	public void disableEncoders() {
 		for (DcMotor motor : motors) {
 			motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -181,7 +181,7 @@ public class DriveTrain {
 	 * Reset encoders
 	 */
 
-	private void resetEncoders() {
+	public void resetEncoders() {
 		for (DcMotor motor : motors) {
 			motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -196,8 +196,8 @@ public class DriveTrain {
 	 * @return Encoder position
 	 */
 
-	private double getEncoderPosition(int motor) {
-		return getCurrentPosition(motors[motor]);
+	public double getEncoderPosition(int motor) {
+		return getEncoderPosition(motors[motor]);
 
 	} 
 
@@ -209,9 +209,9 @@ public class DriveTrain {
 	 * @return Encoder position
 	 */
 
-	private double getEncoderPosition(DcMotor motor) {
+	public double getEncoderPosition(DcMotor motor) {
 		double position = motor.getCurrentPosition();
-		telemetry.addData("Motor " + motor.getPortNumbet() + " Position: ", position);
+		telemetry.addData("Motor " + motor.getPortNumber() + " Position: ", position);
 
 		return position;
 
@@ -223,7 +223,7 @@ public class DriveTrain {
 	 * @return encoder positions
 	 */
 
-	private double[] getEncoderPosition() {
+	public double[] getEncoderPosition() {
 		double[] encoder_values = new double[motors.length];
 
 		for (int i = 0; i < motors.length; i++) {

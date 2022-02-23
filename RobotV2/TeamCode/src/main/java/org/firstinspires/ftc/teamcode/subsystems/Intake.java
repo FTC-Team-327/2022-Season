@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import java.util.Locale;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 /**
  * Intake game piece
@@ -21,7 +24,7 @@ public class Intake {
 	private DcMotor motor;
 
 	/** Color sensor to detect cargo presence */
-	private ColorSensor color_sensor;
+	private DistanceSensor distance_sensor;
 
 	// ---------------- Telemetry
 	
@@ -33,13 +36,13 @@ public class Intake {
 	 * Constructor
 	 * 
 	 * @param motor Motor to assign to the intake
-	 * @param color_sensor Color sensor to detect cargo
+	 * @param distance_sensor Color sensor to detect cargo
 	 * @param telemetry Telemetry pass through
 	 */
 
-	public Intake(DcMotor motor, ColorSensor color_sensor, Telemetry telemetry) {
+	public Intake(DcMotor motor, DistanceSensor distance_sensor, Telemetry telemetry) {
 		this.motor = motor;
-		this.color_sensor = color_sensor;
+		this.distance_sensor = distance_sensor;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
@@ -54,9 +57,9 @@ public class Intake {
 	 * @param telemetry Telemetry pass through
 	 */
 
-	public Intake(String motor, String color_sensor, HardwareMap hardware_map, Telemetry telemetry) {
+	public Intake(String motor, String distance_sensor, HardwareMap hardware_map, Telemetry telemetry) {
 		this.motor = hardware_map.get(DcMotor.class, motor);
-		this.color_sensor = hardware_map.get(ColorSensor.class, color_sensor);
+		this.distance_sensor = hardware_map.get(DistanceSensor.class, distance_sensor);
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
@@ -73,7 +76,7 @@ public class Intake {
 
 	public Intake(HardwareMap hardware_map, Telemetry telemetry) {
 		this.motor = hardware_map.get(DcMotor.class, Constants.intake_motor_name);
-		this.color_sensor = hardware_map.get(ColorSensor.class, Constants.intake_sensor_name);
+		this.distance_sensor = hardware_map.get(DistanceSensor.class, Constants.intake_sensor_name);
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
@@ -86,8 +89,8 @@ public class Intake {
 	 */
 
 	public double pollDistance() {
-		double distance = color_sensor.getDistance(DistanceUnit.CM));
-		telemetry.addData("Cargo Presence Distance (cm)", String.format(Locale.US, "%.02f", distance);
+		double distance = distance_sensor.getDistance(DistanceUnit.CM);
+		telemetry.addData("Cargo Presence Distance (cm)", String.format(Locale.US, "%.02f", distance));
 
 		return distance;
 
@@ -98,8 +101,9 @@ public class Intake {
 	 */
 
 	public boolean detectPresence() {
-		boolean presence = pollDistance() > Constants.intake_sensor_offset && pollDistance < Constants.intake_sensor_max_threshold;
-		telemetry.addData("Cargo Present: " + presence);
+		double distance = pollDistance();
+		boolean presence = (distance > Constants.intake_sensor_offset) && (distance < Constants.intake_sensor_max_threshold);
+		telemetry.addData("Cargo Present: ", presence);
 
 		return presence;
 		

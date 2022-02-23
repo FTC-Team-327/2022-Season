@@ -48,8 +48,8 @@ public class Teleop extends LinearOpMode {
 			robot.drivetrain.mecDrive(forward, strafe, rotate);
 
 			// Intake
-			if (gamepad1.dpad_up || gamepad2.dpad_up) { robot.intake.runIntake(1) }
-			if (gamepad1.dpad_down || gamepad2.dpad_down) { robot.intake.runIntake(-1) }
+			if (gamepad1.dpad_up || gamepad2.dpad_up) { robot.intake.runIntake(1); }
+			if (gamepad1.dpad_down || gamepad2.dpad_down) { robot.intake.runIntake(-1); }
 
 			// Topper
 			if (gamepad1.dpad_left || gamepad2.dpad_left) { robot.topper.runTopper(1.0); }
@@ -67,6 +67,8 @@ public class Teleop extends LinearOpMode {
 			if (gamepad1.left_bumper || gamepad2.left_bumper) { robot.spinner.runSpinner(1); }
 			if (gamepad1.right_bumper || gamepad2.right_bumper) { robot.spinner.runSpinner(-1); }
 
+			robot.drivetrain.getEncoderPosition();
+			robot.intake.pollDistance();
 			
 			// Update telemetry
 			telemetry.update();
