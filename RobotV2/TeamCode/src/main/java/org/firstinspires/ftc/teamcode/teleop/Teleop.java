@@ -40,31 +40,31 @@ public class Teleop extends LinearOpMode {
 
 			// Drive speeds
 			forward =   (gamepad1.left_stick_y) * y_multiplier;
-			strafe  =	(gamepad1.left_stick_x) * x_multiplier;
+			strafe  =	(gamepad1.left_stick_x + gamepad1.left_trigger - gamepad1.right_trigger) * x_multiplier;
 			rotate  =	(gamepad1.right_stick_x) * -1;
-			
-			// Strafe
-			if (gamepad1.left_bumper)		 { strafe = -1; } 
-			else if (gamepad1.right_bumper)	 { strafe = 1; }
 
 			// Drive
 			robot.drivetrain.mecDrive(forward, strafe, rotate);
 
-			// Elevator
-			if (gamepad1.dpad_up) { robot.elevator.runElevator(1.0); }
-			if (gamepad1.dpad_down) { robot.elevator.runElevator(-1.0); }
+			// Intake
+			if (gamepad1.dpad_up) { robot.intake.runIntake(1) }
+			if (gamepad1.dpad_down) { robot.intake.runIntake(-1) }
 
-			// Spinner
-			if (gamepad1.dpad_left) { robot.spinner.runSpinner(1.0); }
-			if (gamepad1.dpad_right) { robot.spinner.runSpinner(-1.0); }
+			// Topper
+			if (gamepad1.dpad_left) { robot.topper.runTopper(1.0); }
+			if (gamepad1.dpad_right) { robot.topper.runTopper(-1.0); }
+
+			// Elevator
+			if (gamepad1.a) { robot.elevator.runElevator(1); }
+			if (gamepad1.y) { robot.elevator.runElevator(-1); }
 
 			// Scoop
-			if (gamepad1.a) { robot.elevator.setScoopPos(0); }
-			if (gamepad1.y) { robot.elevator.setScoopPos(180); }
+			if (gamepad1.x) { robot.elevator.setScoopPos(0); }
+			if (gamepad1.b) { robot.elevator.setScoopPos(180); }
 
-			// Intake
-			if (gamepad1.x) { robot.elevator.runIntake(1); }
-			if (gamepad1.b) { robot.elevator.runIntake(-1); }
+			// Spinner
+			if (gamepad1.left_bumper) { robot.spinner.runSpinner(1); }
+			if (gamepad1.right_bumper) { robot.spinner.runSpinner(-1); }
 
 			
 			// Update telemetry
