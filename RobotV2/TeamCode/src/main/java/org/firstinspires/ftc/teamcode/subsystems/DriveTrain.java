@@ -167,6 +167,75 @@ public class DriveTrain {
 	}
 
 	/**
+	 * Disable encoders
+	 */
+
+	private void disableEncoders() {
+		for (DcMotor motor : motors) {
+			motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+		}
+	}
+
+	/**
+	 * Reset encoders
+	 */
+
+	private void resetEncoders() {
+		for (DcMotor motor : motors) {
+			motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+		}
+	}
+
+	/**
+	 * Get the encoder position
+	 * 
+	 * @param motor Motor to get position from
+	 * 
+	 * @return Encoder position
+	 */
+
+	private double getEncoderPosition(int motor) {
+		return getCurrentPosition(motors[motor]);
+
+	} 
+
+	/**
+	 * Get the encoder position
+	 * 
+	 * @param motor Motor to get position from
+	 * 
+	 * @return Encoder position
+	 */
+
+	private double getEncoderPosition(DcMotor motor) {
+		double position = motor.getCurrentPosition();
+		telemetry.addData("Motor " + motor.getPortNumbet() + " Position: ", position);
+
+		return position;
+
+	} 
+
+	/**
+	 * Return and array of encoder positions
+	 * 
+	 * @return encoder positions
+	 */
+
+	private double[] getEncoderPosition() {
+		double[] encoder_values = new double[motors.length];
+
+		for (int i = 0; i < motors.length; i++) {
+			encoder_values[i] = getEncoderPosition(i);
+
+		}
+
+		return encoder_values;
+
+	}
+
+	/**
 	 * Brake
 	 */
 

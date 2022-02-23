@@ -149,6 +149,24 @@ public class Elevator {
 	}
 
 	/**
+	 * Disable encoders
+	 */
+
+	private void disableEncoders() {
+		motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+	}
+
+	/**
+	 * Reset encoders
+	 */
+
+	private void resetEncoders() {
+		motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+	}
+
+	/**
 	 * Run the Elevator
 	 * 
 	 * @param power Power (-1, 1) to run motor
@@ -175,6 +193,20 @@ public class Elevator {
 
 	public void stopElevator() {
 		motor.setPower(0);
+
+	}
+
+	/**
+	 * Get the encoder position
+	 * 
+	 * @return Encoder position
+	 */
+
+	private double getEncoderPosition() {
+		double position = motor.getCurrentPosition();
+		telemetry.addData("Elevator Motor Position: ", position);
+
+		return position;
 
 	}
 
