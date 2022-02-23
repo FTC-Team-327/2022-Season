@@ -142,8 +142,12 @@ public class OurRobot {
 	 
 	private void initSpinner() {
 		// Spinner
-		spinner = new Spinner(hardware_map.get(DcMotor.class, Constants.spinner_motor_name));
-		
+		spinner = new Spinner(
+			hardware_map.get(DcMotor.class, Constants.spinner_motor_name),
+			hardware_map.get(ColorSensor.class, Constants.spinner_range_sensor_name);
+			telemetry
+			
+		);
 	}
 
 	/**

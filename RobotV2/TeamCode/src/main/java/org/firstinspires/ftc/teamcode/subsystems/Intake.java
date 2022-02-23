@@ -86,7 +86,7 @@ public class Intake {
 	 */
 
 	public double pollDistance() {
-		double distance = sensorDistance.getDistance(DistanceUnit.CM));
+		double distance = color_sensor.getDistance(DistanceUnit.CM));
 		telemetry.addData("Cargo Presence Distance (cm)", String.format(Locale.US, "%.02f", distance);
 
 		return distance;
