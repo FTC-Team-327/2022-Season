@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.EventLoopManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 /**
  * Robot hardware definition
@@ -150,8 +151,12 @@ public class OurRobot {
 	 
 	private void initIntake() {
 		// Intake
-		intake = new Intake(hardware_map.get(DcMotor.class, Constants.intake_motor_name));
-		
+		intake = new Intake(
+			hardware_map.get(DcMotor.class, Constants.intake_motor_name)
+			hardware_map.get(ColorSensor.class, Constants.intake_sensor_name)
+			telemetry
+
+		);
 	}
 
 	/**

@@ -97,6 +97,15 @@ public class Constants {
 	/** Intake Motor */
 	public static final String intake_motor_name = "intake";
 
+	/** Intake Presence detector */
+	public static final String intake_sensor_name = "intake_presence";
+
+	/** Intake Presence detector range */
+	public static final double intake_sensor_max_threshold = 0.0;
+
+	/** Intake Presence detector offet */
+	public static final double intake_sensor_offset = 0.0;
+
 	// -------------------- Topper 
 
 	/** Intake Motor */
