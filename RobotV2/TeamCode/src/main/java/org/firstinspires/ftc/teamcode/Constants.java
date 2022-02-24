@@ -82,20 +82,20 @@ public class Constants {
 	// -------------------- Elevator 
 
 	/** Elevator Slider Motor */
-	public static final String elevator_motor_name = "slider";
+	public static final String elevator_motor_name = "slider_servo";
 
 	/** Elevator Slider Motor */
 	public static final String elevator_bottom_limit_switch_name = "slider_bottom_limit";
 
 	/** Elevator Scoop Servo */
-	public static final String scoop_servo_name = "scoop";
+	public static final String scoop_servo_name = "scoop_servo";
 
 
 
 	// -------------------- Intake 
 
 	/** Intake Motor */
-	public static final String intake_motor_name = "intake";
+	public static final String intake_motor_name = "intake_motor";
 
 	/** Intake Presence detector */
 	public static final String intake_sensor_name = "intake_presence";
@@ -109,7 +109,7 @@ public class Constants {
 	// -------------------- Topper 
 
 	/** Intake Motor */
-	public static final String topper_servo_name = "topper";
+	public static final String topper_servo_name = "topper_servo";
 
 	
 }
