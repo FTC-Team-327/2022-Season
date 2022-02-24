@@ -164,6 +164,10 @@ public class DriveTrain {
 			motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 		}
+		
+		resetEncoders();
+		disableEncoders();
+		
 	}
 
 	/**
@@ -173,6 +177,17 @@ public class DriveTrain {
 	public void disableEncoders() {
 		for (DcMotor motor : motors) {
 			motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+		}
+	}
+	
+	/**
+	 * Enable encoders
+	 */
+
+	public void enableEncoders() {
+		for (DcMotor motor : motors) {
+			motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 		}
 	}
@@ -197,28 +212,15 @@ public class DriveTrain {
 	 */
 
 	public double getEncoderPosition(int motor) {
-		return getEncoderPosition(motors[motor]);
-
-	} 
-
-	/**
-	 * Get the encoder position
-	 * 
-	 * @param motor Motor to get position from
-	 * 
-	 * @return Encoder position
-	 */
-
-	public double getEncoderPosition(DcMotor motor) {
-		double position = motor.getCurrentPosition();
-		telemetry.addData("Motor " + motor.getPortNumber() + " Position: ", position);
+		double position = motors[motor].getCurrentPosition();
+		telemetry.addData("Motor " + motor + " Position: ", position);
 
 		return position;
 
 	} 
 
 	/**
-	 * Return and array of encoder positions
+	 * Return an array of encoder positions
 	 * 
 	 * @return encoder positions
 	 */

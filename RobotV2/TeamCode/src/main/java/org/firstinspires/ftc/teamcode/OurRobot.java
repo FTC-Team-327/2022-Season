@@ -31,6 +31,9 @@ public class OurRobot {
 	/** Drive Train */
 	public DriveTrain drivetrain;
 	
+	/** Chassis Sensors */
+	public ChassisSensors sensors;
+	
 	/** Spinner */
 	public Spinner spinner;
 
@@ -77,6 +80,9 @@ public class OurRobot {
 		
 		// Initialize DriveTrain
 		initDrivetrain();
+		
+		// Initialize Chassis Sensors
+		//initChassisSensors();
 		
 		// Initialize Spinner
 		initSpinner();
@@ -139,6 +145,16 @@ public class OurRobot {
 	}
 	
 	/**
+	 * Initialize Sensors
+	 */
+	
+	private void initChassisSensors() {
+		// Setup chassis sensors
+		sensors = new ChassisSensors(telemetry, hardware_map);
+		
+	}
+	
+	/**
 	 * Initialize Spinner
 	 */
 	 
@@ -173,7 +189,7 @@ public class OurRobot {
 	private void initElevator() {
 		// Elevator
 		elevator = new Elevator(
-			hardware_map.get(DcMotor.class, Constants.intake_motor_name),
+			hardware_map.get(DcMotor.class, Constants.elevator_motor_name),
 			hardware_map.get(Servo.class, Constants.scoop_servo_name),
 			hardware_map.get(TouchSensor.class, Constants.elevator_bottom_limit_switch_name),
 			telemetry

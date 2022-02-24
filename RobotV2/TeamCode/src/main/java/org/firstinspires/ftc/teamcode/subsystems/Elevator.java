@@ -51,6 +51,8 @@ public class Elevator {
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 		this.servo.setDirection(Servo.Direction.REVERSE);
+		
+		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 	}
 
@@ -73,6 +75,8 @@ public class Elevator {
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 		this.servo.setDirection(Servo.Direction.REVERSE);
+		
+		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 	}
 
@@ -94,6 +98,8 @@ public class Elevator {
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 		this.servo.setDirection(Servo.Direction.REVERSE);
+		
+		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 	}
 
@@ -105,9 +111,39 @@ public class Elevator {
 	 * @return limit switch press status
 	 */
 
-	public boolean pollLimit() {
-		return limit_switch.isPressed();
+	public boolean bottomLimit() {
+		boolean bottom_limit = limit_switch.isPressed();
+		
+		if (bottom_limit) {
+			resetEncoders();
+			enableEncoders();
+			
+		}
+		
+		return bottom_limit;
 
+	}
+	
+	/**
+	 * Top limit
+	 */
+	
+	public boolean topLimit() {
+		double top = Constants.elevator_top_limit;
+		double tol = Constants.elevator_top_limit_tolerance;
+		
+		double pos = getEncoderPosition();
+		
+		boolean top_limit = (pos > (top + (top * tol))) || (pos > (top - (top * tol)));
+		
+		if (top_limit) {
+			resetEncoders();
+			enableEncoders();
+			
+		}
+		
+		return top_limit;
+		
 	}
 
 	// ---------------- Move
@@ -116,7 +152,7 @@ public class Elevator {
 	 * Reverses the motor direction
 	 */
 
-	public void reverseElevatorDirection() {
+	private void reverseElevatorDirection() {
 		motor.setDirection(DcMotor.Direction.REVERSE);
 
 	}
@@ -125,7 +161,7 @@ public class Elevator {
 	 * Un-reverses motor direction
 	 */
 
-	public void forwardElevatorDirection() {
+	private void forwardElevatorDirection() {
 		motor.setDirection(DcMotor.Direction.FORWARD);
 
 	}
@@ -156,6 +192,15 @@ public class Elevator {
 		motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 	}
+	
+	/**
+	 * Enable encoders
+	 */
+
+	public void enableEncoders() {
+		motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+	}
 
 	/**
 	 * Reset encoders
@@ -173,9 +218,20 @@ public class Elevator {
 	 */
 
 	public void runElevator(double power) {
-		if (power > 0 || !pollLimit()) {
+		if (bottomLimit()) {
+			if (power > 0) {
+				motor.setPower(power);
+				
+			}
+		} else if (topLimit()) {
+			if (power < 0) {
+				motor.setPower(power);
+				
+			}
+			
+		} else {
 			motor.setPower(power);
-
+			
 		}
 	}
 
@@ -218,7 +274,17 @@ public class Elevator {
 
 	public void setScoopPos(double pos) {
 		servo.setPosition(pos);
-		telemetry.addData("Scoop Position: ", getScoopPos());
+
+	}
+	
+	/**
+	 * Run the scoop
+	 * 
+	 * @param pos_inc position increment
+	 */
+
+	public void incScoopPos(double pos_inc) {
+		servo.setPosition(getScoopPos() + pos_inc);
 
 	}
 	
@@ -229,7 +295,10 @@ public class Elevator {
 	 */
 
 	public double getScoopPos() {
-		return servo.getPosition();
+		double position = servo.getPosition();
+		telemetry.addData("Scoop Position: ", position);
+		
+		return position;
 		
 	}
 

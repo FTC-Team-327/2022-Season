@@ -68,14 +68,17 @@ public class Constants {
 	/** Spinner Motor */
 	public static final String spinner_motor_name = "spinner_motor";
 	
+	/** Spinner motor ticks per rev */
+	public static final int spinner_motor_ticks_per_rev = 1120;
+	
+	/** Spinner motor revolutions per wheel revolution */
+	public static final int motor_rev_to_wheel_rev = 8;
+	
 	/** Spinner Range Sensor */
 	public static final String spinner_range_sensor_name = "spinner_range";
 	
-	/** Spinner Range Sensor Offset */
-	public static final double spinner_range_sensor_offset = 0.0;
-	
 	/** Spinner Range Sensor Tolerance */
-	public static final double spinner_range_sensor_tolerance = 0.0;
+	public static final double spinner_range_sensor_min = 3.0;
 
 
 
@@ -89,7 +92,12 @@ public class Constants {
 
 	/** Elevator Scoop Servo */
 	public static final String scoop_servo_name = "scoop_servo";
-
+	
+	/** Elevator top limit value */
+	public static final double elevator_top_limit = 0.0;
+	
+	/** Elevator top limit value tolerance */
+	public static final double elevator_top_limit_tolerance = 0.0;
 
 
 	// -------------------- Intake 

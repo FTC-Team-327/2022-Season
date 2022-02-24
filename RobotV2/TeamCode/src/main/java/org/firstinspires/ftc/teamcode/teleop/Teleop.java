@@ -27,6 +27,8 @@ public class Teleop extends LinearOpMode {
 		waitForStart();
 		runtime.reset();
 		
+		robot.spinner.encodersRunToPos();
+		
 		// Run until the end of the match (driver presses STOP)
 		while (opModeIsActive()) {
 
@@ -47,28 +49,61 @@ public class Teleop extends LinearOpMode {
 			// Drive
 			robot.drivetrain.mecDrive(forward, strafe, rotate);
 
-			// Intake
-			if (gamepad1.dpad_up || gamepad2.dpad_up) { robot.intake.runIntake(1); }
-			if (gamepad1.dpad_down || gamepad2.dpad_down) { robot.intake.runIntake(-1); }
-
-			// Topper
-			if (gamepad1.dpad_left || gamepad2.dpad_left) { robot.topper.runTopper(1.0); }
-			if (gamepad1.dpad_right || gamepad2.dpad_right) { robot.topper.runTopper(-1.0); }
-
 			// Elevator
-			if (gamepad1.a || gamepad2.a) { robot.elevator.runElevator(1); }
-			if (gamepad1.y || gamepad2.y) { robot.elevator.runElevator(-1); }
-
+			if (gamepad1.dpad_up || gamepad2.dpad_up) { 
+				robot.elevator.runElevator(1); 
+				
+			} else if (gamepad1.dpad_down || gamepad2.dpad_down) { 
+				robot.elevator.runElevator(-1); 
+				
+			} else {
+				robot.elevator.runElevator(0);
+				
+			}
+			
+			// Topper
+			if (gamepad1.dpad_left || gamepad2.dpad_left) { 
+				robot.topper.runTopper(0.25); 
+				
+			} else if (gamepad1.dpad_right || gamepad2.dpad_right) { 
+				robot.topper.runTopper(-0.25); 
+				
+			} else {
+				robot.topper.runTopper(0);
+				
+			}
+			
+			// Intake
+			if (gamepad1.a || gamepad2.a) { 
+				robot.intake.runIntake(1); 
+				
+			} else if (gamepad1.y || gamepad2.y) { 
+				robot.intake.runIntake(-1); 
+				
+			} else {
+				robot.intake.runIntake(0);
+				
+			}
+			
 			// Scoop
-			if (gamepad1.x || gamepad2.x) { robot.elevator.setScoopPos(0); }
-			if (gamepad1.b || gamepad2.b) { robot.elevator.setScoopPos(180); }
+			if (gamepad1.x || gamepad2.x) { robot.elevator.incScoopPos(-10); }
+			if (gamepad1.b || gamepad2.b) { robot.elevator.incScoopPos(10); }
 
 			// Spinner
-			if (gamepad1.left_bumper || gamepad2.left_bumper) { robot.spinner.runSpinner(1); }
-			if (gamepad1.right_bumper || gamepad2.right_bumper) { robot.spinner.runSpinner(-1); }
-
+			if (gamepad1.left_bumper || gamepad2.left_bumper) { 
+				robot.spinner.forwardDirection(); 
+				robot.spinner.rotateSpinner();
+				
+			} else if (gamepad1.right_bumper || gamepad2.right_bumper) { 
+				robot.spinner.reverseDirection(); 
+				robot.spinner.rotateSpinner();
+			
+			}
+			
 			robot.drivetrain.getEncoderPosition();
-			robot.intake.pollDistance();
+			robot.intake.detectPresence();
+			robot.spinner.detectPresence();
+			//robot.sensors.pollRange();
 			
 			// Update telemetry
 			telemetry.update();

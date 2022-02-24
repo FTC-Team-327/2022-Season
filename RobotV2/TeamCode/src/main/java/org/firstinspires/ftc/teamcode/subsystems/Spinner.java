@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 /**
  * Spinner game piece that turns the duck wheel
  * 
+ * By default uses the run to position
+ * 
  * By FTC TEAM 327
  */
 
@@ -47,6 +49,9 @@ public class Spinner {
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+		resetEncoders();
+		disableEncoders();
 
 	}
 
@@ -65,6 +70,9 @@ public class Spinner {
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+		resetEncoders();
+		disableEncoders();
 
 	}
 
@@ -84,6 +92,9 @@ public class Spinner {
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+		resetEncoders();
+		disableEncoders();
 
 	}
 
@@ -102,12 +113,12 @@ public class Spinner {
 	}
 
 	/**
-	 * Detect if cargo is present
+	 * Detect if spinner wheel is underneath
 	 */
 
 	public boolean detectPresence() {
-		double distance = (pollDistance() + pollDistance() + pollDistance()) / 3;
-		boolean presence = (distance > Constants.spinner_range_sensor_offset) && (distance < Constants.spinner_range_sensor_tolerance);
+		double distance = pollDistance();
+		boolean presence = (distance < Constants.spinner_range_sensor_min);
 		telemetry.addData("Spinner Present: ", presence);
 
 		return presence;
@@ -142,6 +153,15 @@ public class Spinner {
 		motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 	}
+	
+	/**
+	 * Enable encoders
+	 */
+
+	public void enableEncoders() {
+		motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+	}
 
 	/**
 	 * Reset encoders
@@ -150,6 +170,15 @@ public class Spinner {
 	public void resetEncoders() {
 		motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+	}
+	
+	/**
+	 * Run to position
+	 */
+	
+	public void encodersRunToPos() {
+		motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+		
 	}
 
 	/**
@@ -168,8 +197,9 @@ public class Spinner {
 
 	public void runSpinner() {
 		runSpinner(1.0);
+		
 	}
-
+	
 	/**
 	 * Stop the spinner
 	 */
@@ -177,6 +207,41 @@ public class Spinner {
 	public void stopSpinner() {
 		motor.setPower(0);
 
+	}
+	
+	/**
+	 * Run spinner with ticks
+	 * 
+	 * @param ticks motor ticks
+	 */
+	
+	private void runSpinnerToPos(int ticks, double power) {
+		resetEncoders();
+		encodersRunToPos();
+		
+		motor.setTargetPosition(ticks);
+		runSpinner(power);
+		
+	}
+	
+	/**
+	 * Rotates the spinner wheel 
+	 */
+	
+	public void rotateSpinner() { rotateSpinner(1); }
+	
+	/**
+	 * Rotates the spinner wheel 
+	 * 
+	 * @param rotations Number of rotations of the spinner wheel
+	 */
+	
+	public void rotateSpinner(int rotations) {
+		int tpr = Constants.spinner_motor_ticks_per_rev;
+		int mvw = Constants.motor_rev_to_wheel_rev;
+		
+		runSpinnerToPos(rotations * tpr * mvw, 1);
+		
 	}
 
 	/**

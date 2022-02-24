@@ -47,6 +47,7 @@ public class Intake {
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 	}
 
@@ -66,6 +67,7 @@ public class Intake {
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 	}
 
@@ -85,6 +87,7 @@ public class Intake {
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
+		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 	}
 

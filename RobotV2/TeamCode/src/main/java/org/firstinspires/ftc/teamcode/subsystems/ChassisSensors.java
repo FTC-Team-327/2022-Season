@@ -51,6 +51,8 @@ public class ChassisSensors {
 	public ChassisSensors(Telemetry telemetry, HardwareMap hardware_map) {
 		this.telemetry = telemetry;
 		this.hardware_map = hardware_map;
+		
+		initRange();
 
 	}
 
@@ -60,11 +62,15 @@ public class ChassisSensors {
 	 * Initialize the chassis range sensors
 	 */
 
-	public void initRange() {
+	private void initRange() {
 		// Setup sensors
+		range_sensors = new ModernRoboticsI2cRangeSensor[3];
 		range_sensors[FRONT_RANGE_SENSOR] = hardware_map.get(ModernRoboticsI2cRangeSensor.class, Constants.chassis_front_range_name);
 		range_sensors[LEFT_RANGE_SENSOR] = hardware_map.get(ModernRoboticsI2cRangeSensor.class, Constants.chassis_left_range_name);
 		range_sensors[RIGHT_RANGE_SENSOR] = hardware_map.get(ModernRoboticsI2cRangeSensor.class, Constants.chassis_right_range_name);
+
+		range_sensor_data_ultrasonic = new double[range_sensors.length];
+		range_sensor_data_optical = new double[range_sensors.length];
 
 		// Set boolean
 		range_sensors_initialized = true;
@@ -81,15 +87,28 @@ public class ChassisSensors {
 	 */
 
 	public void pollRange() {
-		if (!range_sensors_initialized) { return; }
-
 		for (int i = 0; i < range_sensors.length; i++) {
-			range_sensor_data_ultrasonic[i] = range_sensors[i].rawUltrasonic();
-			range_sensor_data_optical[i] = range_sensors[i].rawOptical();
-
-			telemetry.addData("Range Sensor " + i, range_sensor_data_ultrasonic[i]);
-
+			pollRange(i);
+			
 		}
+	}
+	
+	/**
+	 * Poll the chassis range sensor
+	 * 
+	 * @param sensor Sensor to poll
+	 */
+	
+	public double pollRange(int sensor) {
+		if (!range_sensors_initialized) { return 0; }
+		
+		range_sensor_data_ultrasonic[sensor] = range_sensors[sensor].rawUltrasonic();
+		range_sensor_data_optical[sensor] = range_sensors[sensor].rawOptical();
+
+		telemetry.addData("Range Sensor " + sensor, range_sensor_data_ultrasonic[sensor]);
+		
+		return range_sensor_data_ultrasonic[sensor];
+		
 	}
 	
 }
