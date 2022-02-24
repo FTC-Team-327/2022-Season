@@ -74,11 +74,14 @@ public class Spinner {
 	 * @see org.firstinspires.ftc.teamcode.Constants
 	 * 
 	 * @param hardware_map Maps the hardware given the string name of the motor
+	 * @param telemetry Telemetry pass through
 	 */
 
-	public Spinner(HardwareMap hardware_map) {
+	public Spinner(HardwareMap hardware_map, Telemetry telemetry) {
 		this.motor = hardware_map.get(DcMotor.class, Constants.intake_motor_name);
 		this.distance_sensor = hardware_map.get(DistanceSensor.class, Constants.spinner_range_sensor_name);
+
+		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 

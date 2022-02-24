@@ -44,6 +44,8 @@ public class Intake {
 		this.motor = motor;
 		this.distance_sensor = distance_sensor;
 
+		this.telemetry = telemetry;
+
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
 	}
@@ -61,6 +63,8 @@ public class Intake {
 		this.motor = hardware_map.get(DcMotor.class, motor);
 		this.distance_sensor = hardware_map.get(DistanceSensor.class, distance_sensor);
 
+		this.telemetry = telemetry;
+
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
 	}
@@ -77,6 +81,8 @@ public class Intake {
 	public Intake(HardwareMap hardware_map, Telemetry telemetry) {
 		this.motor = hardware_map.get(DcMotor.class, Constants.intake_motor_name);
 		this.distance_sensor = hardware_map.get(DistanceSensor.class, Constants.intake_sensor_name);
+
+		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 
