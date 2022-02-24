@@ -82,7 +82,7 @@ public class Constants {
 	// -------------------- Elevator 
 
 	/** Elevator Slider Motor */
-	public static final String elevator_motor_name = "slider_servo";
+	public static final String elevator_motor_name = "slider_motor";
 
 	/** Elevator Slider Motor */
 	public static final String elevator_bottom_limit_switch_name = "slider_bottom_limit";
