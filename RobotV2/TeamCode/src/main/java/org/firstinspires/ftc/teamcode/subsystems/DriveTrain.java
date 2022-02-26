@@ -14,17 +14,85 @@ public class DriveTrain {
 
 	// --------------------- Motor array indexes
 
-	/** Front Left Dc_Motor */
-	private final int FRONT_LEFT_MOTOR = 0;
-	
-	/** Front Right Dc_Motor */
-	private final int FRONT_RIGHT_MOTOR = 1;
-	
-	/** Rear Left Dc_Motor */
-	private final int REAR_LEFT_MOTOR = 2;
-	
-	/** Rear Right Dc_Motor */
-	private final int REAR_RIGHT_MOTOR = 3;
+	/**
+	 * Public enumerator of drive motors ids
+	 */
+
+	public enum MOTOR_ID {
+		/** Front Left Dc_Motor */
+		FRONT_LEFT_MOTOR(0),
+
+		/** Front Right Dc_Motor */
+		FRONT_RIGHT_MOTOR(1),
+
+		/** Rear Left Dc_Motor */
+		REAR_LEFT_MOTOR(2),
+
+		/** Rear Right Dc_Motor */
+		REAR_RIGHT_MOTOR(3)
+
+		;
+
+		/** id of the motor within the drivetrain array */
+		private final int id;
+
+		/**
+		 * Constructor for the motor id index enum
+		 *
+		 * @param id id of the motor within the drivetrain array
+		 */
+
+		MOTOR_ID(int id) { this.id = id; }
+
+		/**
+		 * Get the id of the motor
+		 *
+		 * @return motor id
+		 */
+
+		public int getID() { return id; }
+
+		/**
+		 * Get the object given the id number
+		 *
+		 * @param id Id of the motor
+		 *
+		 * @return Motor enum object
+		 *
+		 * @throws IndexOutOfBoundsException Motor index out of bounds
+		 */
+
+		public static MOTOR_ID getMotorEnum(int id) throws IndexOutOfBoundsException {
+			// Look through all defined motors
+			for (MOTOR_ID e : values()) {
+				if (e.getID() == id) {
+					return e;
+
+				}
+			}
+
+			throw new IndexOutOfBoundsException();
+		}
+
+		/**
+		 * Gets the name of the motor
+		 *
+		 * @param id Id of the motor
+		 *
+		 * @return name of the motor
+		 */
+
+		public static String getMotorName(int id) {
+			try {
+				return getMotorEnum(id).toString().toLowerCase().replace("_", " ");
+
+			} catch (IndexOutOfBoundsException e) {
+				return "Null Motor";
+
+			}
+		}
+
+	}
 
 	// --------------------- Motor objects
 
@@ -60,7 +128,7 @@ public class DriveTrain {
 	/**
 	 * Drive constructor (See public ints for indexes)
 	 * 
-	 * @param motor_ids Motor ids from hardware map
+	 * @param motors Motor ids from hardware map
 	 * @param hardware_map Hardware mapper
 	 * @param telemetry Robot telemetry pass-through
 	 */
@@ -128,10 +196,10 @@ public class DriveTrain {
 		motors = new DcMotor[4];
 		
 		// Set motors
-		motors[FRONT_LEFT_MOTOR] = front_left_motor;
-		motors[FRONT_LEFT_MOTOR] = front_right_motor;
-		motors[REAR_LEFT_MOTOR]  = rear_left_motor;
-		motors[REAR_RIGHT_MOTOR] = rear_right_motor;
+		motors[MOTOR_ID.FRONT_LEFT_MOTOR.getID()] = front_left_motor;
+		motors[MOTOR_ID.FRONT_RIGHT_MOTOR.getID()] = front_right_motor;
+		motors[MOTOR_ID.REAR_LEFT_MOTOR.getID()]  = rear_left_motor;
+		motors[MOTOR_ID.REAR_RIGHT_MOTOR.getID()] = rear_right_motor;
 		
 		// Config motors
 		configureMotors();
@@ -164,44 +232,34 @@ public class DriveTrain {
 			motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 		}
-		
+
+		// Reset and disable encoders
 		resetEncoders();
 		disableEncoders();
 		
 	}
 
 	/**
-	 * Disable encoders
+	 * Set the encoder mode on all motors
+	 *
+	 * @param mode Run mode
 	 */
 
-	public void disableEncoders() {
+	public void setEncoderMode(DcMotor.RunMode mode) {
 		for (DcMotor motor : motors) {
-			motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+			motor.setMode(mode);
 
 		}
 	}
+
+	/** Disable encoders */
+	public void disableEncoders() { setEncoderMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); }
 	
-	/**
-	 * Enable encoders
-	 */
+	/** Enable encoders */
+	public void enableEncoders() { setEncoderMode(DcMotor.RunMode.RUN_USING_ENCODER); }
 
-	public void enableEncoders() {
-		for (DcMotor motor : motors) {
-			motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-		}
-	}
-
-	/**
-	 * Reset encoders
-	 */
-
-	public void resetEncoders() {
-		for (DcMotor motor : motors) {
-			motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-		}
-	}
+	/** Reset encoders */
+	public void resetEncoders() { setEncoderMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); }
 
 	/**
 	 * Get the encoder position
@@ -212,9 +270,11 @@ public class DriveTrain {
 	 */
 
 	public double getEncoderPosition(int motor) {
+		// Get position
 		double position = motors[motor].getCurrentPosition();
-		telemetry.addData("Motor " + motor + " Position: ", position);
 
+		// Output position
+		telemetry.addData("Motor " + motor + " Position: ", position);
 		return position;
 
 	} 
@@ -226,24 +286,24 @@ public class DriveTrain {
 	 */
 
 	public double[] getEncoderPosition() {
+		// Encoder value array
 		double[] encoder_values = new double[motors.length];
 
+		// Get values
 		for (int i = 0; i < motors.length; i++) {
 			encoder_values[i] = getEncoderPosition(i);
 
 		}
 
+		// Return
 		return encoder_values;
 
 	}
 
-	/**
-	 * Brake
-	 */
-
+	/** Brake */
 	public void brake() {
-		for (DcMotor motor : motors) {
-			motor.setPower(0);
+		for (int i = 0; i < motors.length; i++) {
+			setPower(i, 0);
 
 		}
 	}
@@ -252,12 +312,12 @@ public class DriveTrain {
 	 * Drive
 	 * 
 	 * @param motor Motor index to control
-	 * 
+	 * @param power Motor power
 	 */
 
 	public void setPower(int motor, double power) {
 		motors[motor].setPower(power);
-		telemetry.addData("Motor " + motor, "Power " + power);
+		telemetry.addData(MOTOR_ID.getMotorName(motor) + " Power",power);
 
 	}
 
@@ -288,7 +348,7 @@ public class DriveTrain {
 	/**
 	 * takes in values from -1 to 1, for 3 axes.
 	 * 
-	 * @param front_back forward/backward motion
+	 * @param forward forward/backward motion
 	 * @param strafe left/right motion
 	 * @param rotate rotation
 	 * 
