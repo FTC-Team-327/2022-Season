@@ -29,9 +29,10 @@ public class DuckAuto extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        robot.drivetrain.mecDrive(-1, 0, 0);
-        sleep(1000);
-        robot.drivetrain.brake();
+        // Lift elevator
+        robot.elevator.runElevator(0.25);
+        sleep(200);
+        robot.elevator.stopElevator();
 
         //robot.spinner.rotateSpinner(1);
 

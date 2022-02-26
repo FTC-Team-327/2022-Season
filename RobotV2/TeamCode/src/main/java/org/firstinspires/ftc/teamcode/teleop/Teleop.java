@@ -101,11 +101,11 @@ public class Teleop extends LinearOpMode {
 			// Spinner
 			if (gamepad1.left_bumper || gamepad2.left_bumper) { 
 				robot.spinner.forwardDirection();
-				robot.spinner.rotateSpinner(.9);
+				robot.spinner.runSpinner();
 				
 			} else if (gamepad1.right_bumper || gamepad2.right_bumper) { 
 				robot.spinner.reverseDirection();
-				robot.spinner.rotateSpinner(.9);
+				robot.spinner.runSpinner();
 			
 			}
 
