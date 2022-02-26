@@ -218,27 +218,29 @@ public class Elevator {
 	 */
 
 	public void runElevator(double power) {
+		// If the bottom limit switch is pressed
 		if (bottomLimit()) {
+			// If power level makes elevator go up
 			if (power > 0) {
 				motor.setPower(power);
 				
 			}
+		// If the top limit switch is pressed
 		} else if (topLimit()) {
+			// If power level makes elevator go down
 			if (power < 0) {
 				motor.setPower(power);
 				
 			}
-			
+
+		// If no switch is pressed
 		} else {
 			motor.setPower(power);
 			
 		}
 	}
 
-	/**
-	 * Run the Elevator at max speed
-	 */
-
+	/** Run the Elevator at max speed */
 	public void runElevator() {
 		runElevator(1.0);
 	}
@@ -284,7 +286,7 @@ public class Elevator {
 	 */
 
 	public void incScoopPos(double pos_inc) {
-		servo.setPosition(getScoopPos() + pos_inc);
+		setScoopPos(getScoopPos() + pos_inc);
 
 	}
 	
