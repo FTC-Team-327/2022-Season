@@ -31,7 +31,7 @@ public class StarterAuto extends LinearOpMode {
 
 		// Lift elevator
 		robot.elevator.runElevator(0.25);
-		sleep(100);
+		sleep(200);
 		robot.elevator.stopElevator();
 
 		// Move forward
@@ -41,7 +41,7 @@ public class StarterAuto extends LinearOpMode {
 
 		// Strafe
 		robot.drivetrain.mecDrive(0,-1,0);
-		sleep(200);
+		sleep(500);
 		robot.drivetrain.brake();
 		
 		//robot.spinner.rotateSpinner(1);
