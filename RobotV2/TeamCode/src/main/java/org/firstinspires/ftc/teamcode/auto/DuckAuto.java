@@ -37,15 +37,12 @@ public class DuckAuto extends LinearOpMode {
         robot.drivetrain.driveDistance(100, 1);
         robot.drivetrain.brake();
 
-        robot.drivetrain.mecDrive(0,0,1);
-        sleep(100);
-        robot.drivetrain.brake();
+        while (!robot.spinner.detectPresence()) {
+            robot.drivetrain.driveDistance(10,1);
+
+        }
 
         robot.spinner.rotateSpinner();
-
-        robot.drivetrain.mecDrive(0,0,-1);
-        sleep(100);
-        robot.drivetrain.brake();
 
         robot.drivetrain.driveDistance(-200, 1);
         robot.drivetrain.brake();
