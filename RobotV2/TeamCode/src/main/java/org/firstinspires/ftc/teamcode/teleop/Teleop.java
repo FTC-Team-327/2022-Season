@@ -27,8 +27,6 @@ public class Teleop extends LinearOpMode {
 		waitForStart();
 		runtime.reset();
 		
-		robot.spinner.encodersRunToPos();
-		
 		// Run until the end of the match (driver presses STOP)
 		while (opModeIsActive()) {
 
@@ -91,15 +89,15 @@ public class Teleop extends LinearOpMode {
 
 			// Spinner
 			if (gamepad1.left_bumper || gamepad2.left_bumper) { 
-				robot.spinner.forwardDirection(); 
+				robot.spinner.forwardDirection();
 				robot.spinner.rotateSpinner();
 				
 			} else if (gamepad1.right_bumper || gamepad2.right_bumper) { 
-				robot.spinner.reverseDirection(); 
+				robot.spinner.reverseDirection();
 				robot.spinner.rotateSpinner();
 			
 			}
-			
+
 			robot.drivetrain.getEncoderPosition();
 			robot.intake.detectPresence();
 			robot.spinner.detectPresence();
