@@ -32,6 +32,9 @@ public class StarterAuto extends LinearOpMode {
 		robot.drivetrain.mecDrive(-1, 0, 0);
 		sleep(1000);
 		robot.drivetrain.brake();
+		robot.drivetrain.mecDrive(0,-1,0);
+		sleep(200);
+		robot.drivetrain.brake();
 		
 		//robot.spinner.rotateSpinner(1);
 		
