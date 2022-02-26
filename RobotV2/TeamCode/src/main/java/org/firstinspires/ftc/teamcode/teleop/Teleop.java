@@ -84,8 +84,18 @@ public class Teleop extends LinearOpMode {
 			}
 			
 			// Scoop
-			if (gamepad1.x || gamepad2.x) { robot.elevator.incScoopPos(-10); }
-			if (gamepad1.b || gamepad2.b) { robot.elevator.incScoopPos(10); }
+			if (gamepad1.x || gamepad2.x) {
+				robot.elevator.forwardScoopDirection();
+				robot.elevator.runScoop();
+
+			} else if (gamepad1.b || gamepad2.b) {
+				robot.elevator.reverseScoopDirection();
+				robot.elevator.runScoop();
+
+			} else {
+				robot.elevator.stopScoop();
+
+			}
 
 			// Spinner
 			if (gamepad1.left_bumper || gamepad2.left_bumper) { 
