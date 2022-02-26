@@ -49,10 +49,10 @@ public class Teleop extends LinearOpMode {
 
 			// Elevator
 			if (gamepad1.dpad_up || gamepad2.dpad_up) { 
-				robot.elevator.runElevator(1); 
+				robot.elevator.runElevator(0.75);
 				
 			} else if (gamepad1.dpad_down || gamepad2.dpad_down) { 
-				robot.elevator.runElevator(-1); 
+				robot.elevator.runElevator(-0.75);
 				
 			} else {
 				robot.elevator.runElevator(0);
