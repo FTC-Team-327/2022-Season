@@ -1,10 +1,16 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.util.exceptions.InvalidMotorIDException;
+import org.firstinspires.ftc.teamcode.util.exceptions.InvalidMotorNameException;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import java.util.ArrayList;
 
 /**
  * Drive Train
@@ -59,10 +65,10 @@ public class DriveTrain {
 		 *
 		 * @return Motor enum object
 		 *
-		 * @throws IndexOutOfBoundsException Motor index out of bounds
+		 * @throws InvalidMotorIDException Motor index out of bounds
 		 */
 
-		public static MOTOR_ID getMotorEnum(int id) throws IndexOutOfBoundsException {
+		public static MOTOR_ID getMotorEnum(int id) throws InvalidMotorIDException {
 			// Look through all defined motors
 			for (MOTOR_ID e : values()) {
 				if (e.getID() == id) {
@@ -71,7 +77,7 @@ public class DriveTrain {
 				}
 			}
 
-			throw new IndexOutOfBoundsException();
+			throw new InvalidMotorIDException(id);
 		}
 
 		/**
@@ -86,8 +92,61 @@ public class DriveTrain {
 			try {
 				return getMotorEnum(id).toString().toLowerCase().replace("_", " ");
 
-			} catch (IndexOutOfBoundsException e) {
+			} catch (InvalidMotorIDException e) {
 				return "Null Motor";
+
+			}
+		}
+
+		/**
+		 * Get the motor id by the name
+		 *
+		 * @param name Name of the motor
+		 *
+		 * @return Motor id
+		 *
+		 * @throws InvalidMotorNameException If name is not recognized
+		 */
+
+		public static int getIDByName(String name) throws InvalidMotorNameException {
+			for (MOTOR_ID e : values()) {
+				if (name.equalsIgnoreCase(e.toString())) {
+					return e.getID();
+				}
+			}
+
+			throw new InvalidMotorNameException(name);
+
+		}
+
+		/**
+		 * Get the motor ids if the string is contained in the motor name
+		 *
+		 * @param name String in the of the motor
+		 *
+		 * @return Motor ids
+		 *
+		 * @throws InvalidMotorNameException If name is not recognized
+		 */
+
+		public static int[] getIDsByName(String name) throws InvalidMotorNameException {
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+
+			for (MOTOR_ID e : values()) {
+				if (name.contains(e.toString())) {
+					ids.add(e.getID());
+
+				}
+			}
+
+			if (ids.size() > 0) {
+				int[] ids_ar = new int[ids.size()];
+				for (int i = 0; i < ids_ar.length; i++) { ids_ar[i] = ids.get(i); }
+
+				return ids_ar;
+
+			} else {
+				throw new InvalidMotorNameException(name);
 
 			}
 		}
@@ -121,7 +180,7 @@ public class DriveTrain {
 		this.telemetry = telemetry;
 
 		// Config motors
-		configureMotors();
+		setMecDrive();
 
 	}
 	
@@ -147,7 +206,8 @@ public class DriveTrain {
 		}
 
 		// Config motors
-		configureMotors();
+		setMecDrive();
+		setBrakeMode();
 
 	}
 
@@ -202,7 +262,8 @@ public class DriveTrain {
 		motors[MOTOR_ID.REAR_RIGHT_MOTOR.getID()] = rear_right_motor;
 		
 		// Config motors
-		configureMotors();
+		setBrakeMode();
+		setMecDrive();
 
 	}
 	
@@ -210,7 +271,7 @@ public class DriveTrain {
 	 * Configure the motors (called from instructor)
 	 */
 	
-	private void configureMotors() {
+	private void setMecDrive() {
 		// Set every other motor to forwards
 		for (int i = 0; i < motors.length; i++) {
 			if (i % 2 == 0) {
@@ -227,16 +288,22 @@ public class DriveTrain {
 			}
 		}
 
+		// Reset and disable encoders
+		resetEncoders();
+		disableEncoders();
+		
+	}
+
+	/**
+	 * Set zero power brake mode
+	 */
+
+	private void setBrakeMode() {
 		// Zero power behavior
 		for (DcMotor motor : motors) {
 			motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 		}
-
-		// Reset and disable encoders
-		resetEncoders();
-		disableEncoders();
-		
 	}
 
 	/**
@@ -260,6 +327,9 @@ public class DriveTrain {
 
 	/** Reset encoders */
 	public void resetEncoders() { setEncoderMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); }
+
+	/** Run to position */
+	public void encodersRunToPos() { setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION); }
 
 	/**
 	 * Get the encoder position
@@ -300,12 +370,72 @@ public class DriveTrain {
 
 	}
 
+	/**
+	 * Get the encoder position of specific motor ids
+	 *
+	 * @param ids Ids of the motors
+	 *
+	 * @return Encoder positions of those motors
+	 */
+
+	public double[] getEncoderPosition(int[] ids) {
+		double[] values = new double[ids.length];
+
+		for (int i = 0; i < values.length; i++) {
+			values[i] = getEncoderPosition(ids[i]);
+
+		}
+
+		return values;
+	}
+
 	/** Brake */
 	public void brake() {
 		for (int i = 0; i < motors.length; i++) {
 			setPower(i, 0);
 
 		}
+	}
+
+	/**
+	 * Run to position
+	 *
+	 * @param ticks Encoder ticks
+	 * @param power Motor power
+	 */
+
+	public void runToPosition(int ticks, double power) {
+		// Telemetry
+		telemetry.addData("Drive Target Position",  ticks);
+
+		// Set run mode
+		resetEncoders();
+		setEncoderMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+		// Set target position
+		for (DcMotor motor : motors) {
+			motor.setTargetPosition(ticks);
+
+		}
+
+		// Set power
+		setPower(power);
+
+	}
+
+	/**
+	 * Drive distance
+	 *
+	 * @param distance Distance to drive
+	 * @param power Drive power
+	 */
+
+	public void driveDistance(double distance, double power) {
+		double wheel_circumference = Constants.drive_wheel_diameter * Math.PI / 2;
+		int ticks = (int) Math.round(Constants.drive_ticks_per_rev * distance / wheel_circumference);
+
+		runToPosition(ticks, power);
+
 	}
 
 	/**
@@ -319,6 +449,19 @@ public class DriveTrain {
 		motors[motor].setPower(power);
 		telemetry.addData(MOTOR_ID.getMotorName(motor) + " Power",power);
 
+	}
+
+	/**
+	 * Set power to all motors
+	 *
+	 * @param power Motor power
+	 */
+
+	public void setPower(double power) {
+		for (int i = 0; i < motors.length; i++) {
+			setPower(i, power);
+
+		}
 	}
 
 	/**
@@ -388,5 +531,4 @@ public class DriveTrain {
 		//motors[REAR_RIGHT_MOTOR].setPower(speeds[3]);
 
 	}
-	
 }

@@ -19,9 +19,12 @@ public class Constants {
 	
 	/** Rear Right Drivetrain motor */
 	public static final String rear_right_motor_name = "back_right";
-	
-	
-	
+
+	/** Wheel diameter */
+	public static final double drive_wheel_diameter = 96;
+
+	/** Encoder ticks per rev */
+	public static final double drive_ticks_per_rev = 537.7;
 
 	// -------------------- Chassis Sensors
 	
