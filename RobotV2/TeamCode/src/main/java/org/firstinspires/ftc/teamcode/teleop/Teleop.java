@@ -107,6 +107,9 @@ public class Teleop extends LinearOpMode {
 				robot.spinner.reverseDirection();
 				robot.spinner.runSpinner();
 			
+			} else {
+				robot.spinner.stopSpinner();
+
 			}
 
 			robot.drivetrain.getEncoderPosition();
