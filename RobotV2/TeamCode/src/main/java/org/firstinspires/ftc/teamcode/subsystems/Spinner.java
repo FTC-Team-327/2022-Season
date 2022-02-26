@@ -156,23 +156,11 @@ public class Spinner {
 		motor.setPower(power);
 	}
 
-	/**
-	 * Run the spinner at max speed
-	 */
-
-	public void runSpinner() {
-		runSpinner(1.0);
-		
-	}
+	/** Run the spinner at max speed */
+	public void runSpinner() { runSpinner(1.0); }
 	
-	/**
-	 * Stop the spinner
-	 */
-
-	public void stopSpinner() {
-		motor.setPower(0);
-
-	}
+	/** Stop the spinner */
+	public void stopSpinner() { motor.setPower(0); }
 	
 	/**
 	 * Run spinner with ticks

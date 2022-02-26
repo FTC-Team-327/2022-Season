@@ -148,68 +148,26 @@ public class Elevator {
 
 	// ---------------- Move
 
-	/**
-	 * Reverses the motor direction
-	 */
+	/** Reverses the motor direction */
+	private void reverseElevatorDirection() { motor.setDirection(DcMotor.Direction.REVERSE); }
 
-	private void reverseElevatorDirection() {
-		motor.setDirection(DcMotor.Direction.REVERSE);
-
-	}
-
-	/**
-	 * Un-reverses motor direction
-	 */
-
-	private void forwardElevatorDirection() {
-		motor.setDirection(DcMotor.Direction.FORWARD);
-
-	}
+	/** Un-reverses motor direction */
+	private void forwardElevatorDirection() { motor.setDirection(DcMotor.Direction.FORWARD); }
 	
-	/**
-	 * Reverses the servo direction
-	 */
+	/** Reverses the servo direction */
+	public void reverseScoopDirection() { servo.setDirection(Servo.Direction.REVERSE); }
 
-	public void reverseScoopDirection() {
-		servo.setDirection(Servo.Direction.REVERSE);
+	/** Un-reverses servo direction */
+	public void forwardScoopDirection() { servo.setDirection(Servo.Direction.FORWARD); }
 
-	}
-
-	/**
-	 * Un-reverses servo direction
-	 */
-
-	public void forwardScoopDirection() {
-		servo.setDirection(Servo.Direction.FORWARD);
-
-	}
-
-	/**
-	 * Disable encoders
-	 */
-
-	public void disableEncoders() {
-		motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-	}
+	/** Disable encoders */
+	public void disableEncoders() { motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); }
 	
-	/**
-	 * Enable encoders
-	 */
+	/** Enable encoders */
+	public void enableEncoders() { motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER); }
 
-	public void enableEncoders() {
-		motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-	}
-
-	/**
-	 * Reset encoders
-	 */
-
-	public void resetEncoders() {
-		motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-	}
+	/** Reset encoders */
+	public void resetEncoders() { motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); }
 
 	/**
 	 * Run the Elevator
@@ -245,14 +203,8 @@ public class Elevator {
 		runElevator(1.0);
 	}
 
-	/**
-	 * Stop the Elevator
-	 */
-
-	public void stopElevator() {
-		motor.setPower(0);
-
-	}
+	/** Stop the Elevator */
+	public void stopElevator() { motor.setPower(0); }
 
 	/**
 	 * Get the encoder position

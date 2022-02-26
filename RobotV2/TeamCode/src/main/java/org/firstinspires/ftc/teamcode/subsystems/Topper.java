@@ -80,23 +80,11 @@ public class Topper {
 
 	// ---------------- Move
 	
-	/**
-	 * Reverses the servo direction
-	 */
+	/** Reverses the servo direction */
+	public void reverseTopperDirection() { servo.setDirection(CRServo.Direction.REVERSE); }
 
-	public void reverseTopperDirection() {
-		servo.setDirection(CRServo.Direction.REVERSE);
-
-	}
-
-	/**
-	 * Un-reverses servo direction
-	 */
-
-	public void forwardTopperDirection() {
-		servo.setDirection(CRServo.Direction.FORWARD);
-
-	}
+	/** Un-reverses servo direction */
+	public void forwardTopperDirection() { servo.setDirection(CRServo.Direction.FORWARD); }
 
 	 /**
 	 * Run the topper
@@ -108,8 +96,4 @@ public class Topper {
 		servo.setPower(power);
 
 	}
-	
-	
-	
-
 }
