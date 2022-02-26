@@ -50,6 +50,8 @@ public class Spinner {
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+		// Reset and disable encoders
 		resetEncoders();
 		disableEncoders();
 
@@ -71,6 +73,8 @@ public class Spinner {
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+		// Reset and disable encoders
 		resetEncoders();
 		disableEncoders();
 
@@ -93,6 +97,8 @@ public class Spinner {
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
 		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+		// Reset and disable encoders
 		resetEncoders();
 		disableEncoders();
 
@@ -105,9 +111,11 @@ public class Spinner {
 	 */
 
 	public double pollDistance() {
+		// Get distance
 		double distance = distance_sensor.getDistance(DistanceUnit.CM);
-		telemetry.addData("Spinner Presence Distance (cm)", String.format(Locale.US, "%.02f", distance));
 
+		//
+		telemetry.addData("Spinner Presence Distance (cm)", String.format(Locale.US, "%.02f", distance));
 		return distance;
 
 	}
