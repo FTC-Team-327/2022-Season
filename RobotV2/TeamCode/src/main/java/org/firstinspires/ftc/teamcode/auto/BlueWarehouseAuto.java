@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.auto;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.OurRobot;
-import org.firstinspires.ftc.teamcode.Constants;
 
-@Autonomous(name="Warehouse Auto", group = "Linear Opmode")
+@Autonomous(name="Blue Warehouse Auto", group = "Linear Opmode")
 
-public class StarterAuto extends LinearOpMode {
+public class BlueWarehouseAuto extends LinearOpMode {
 	
 	// timer
 	private ElapsedTime runtime = new ElapsedTime();
@@ -40,7 +39,7 @@ public class StarterAuto extends LinearOpMode {
 		robot.drivetrain.brake();
 
 		// Strafe
-		robot.drivetrain.mecDrive(0,-1,0);
+		robot.drivetrain.mecDrive(0,1,0);
 		sleep(500);
 		robot.drivetrain.brake();
 		
