@@ -34,6 +34,22 @@ public class DuckAuto extends LinearOpMode {
         sleep(200);
         robot.elevator.stopElevator();
 
+        robot.drivetrain.driveDistance(100, 1);
+        robot.drivetrain.brake();
+
+        robot.drivetrain.mecDrive(0,0,1);
+        sleep(100);
+        robot.drivetrain.brake();
+
+        robot.spinner.rotateSpinner();
+
+        robot.drivetrain.mecDrive(0,0,-1);
+        sleep(100);
+        robot.drivetrain.brake();
+
+        robot.drivetrain.driveDistance(-200, 1);
+        robot.drivetrain.brake();
+
         //robot.spinner.rotateSpinner(1);
 
         sleep((long) ((30 - runtime.seconds()) * 1000));
