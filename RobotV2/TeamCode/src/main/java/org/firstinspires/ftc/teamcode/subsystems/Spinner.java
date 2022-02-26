@@ -188,6 +188,7 @@ public class Spinner {
 	 */
 
 	public void runSpinner(double power) {
+		telemetry.addData("Spinner Motor Power", power);
 		motor.setPower(power);
 	}
 
