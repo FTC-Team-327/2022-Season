@@ -33,10 +33,10 @@ public class Teleop extends LinearOpMode {
 			// Run
 			double x_multiplier = 1;
 			double y_multiplier = 1;
-			double controller_2_multiplier = .2;
+			double controller_2_multiplier = 0.2;
 
 			// Drive speeds
-			forward =   (gamepad1.left_stick_y + (gamepad2.left_stick_y * controller_2_multiplier)) * y_multiplier;
+			forward =   (-gamepad1.left_stick_y + (gamepad2.left_stick_y * controller_2_multiplier)) * y_multiplier;
 			strafe  =	(
 							(/*gamepad1.left_stick_x*/ - gamepad1.left_trigger + gamepad1.right_trigger) +
 							((/*gamepad2.left_stick_x*/ - gamepad2.left_trigger + gamepad2.right_trigger) * controller_2_multiplier)
