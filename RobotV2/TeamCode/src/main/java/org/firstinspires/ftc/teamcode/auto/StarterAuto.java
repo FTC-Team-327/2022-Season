@@ -29,9 +29,17 @@ public class StarterAuto extends LinearOpMode {
 		waitForStart();
 		runtime.reset();
 
+		// Lift elevator
+		robot.elevator.runElevator(0.25);
+		sleep(100);
+		robot.elevator.stopElevator();
+
+		// Move forward
 		robot.drivetrain.mecDrive(-1, 0, 0);
 		sleep(1000);
 		robot.drivetrain.brake();
+
+		// Strafe
 		robot.drivetrain.mecDrive(0,-1,0);
 		sleep(200);
 		robot.drivetrain.brake();
