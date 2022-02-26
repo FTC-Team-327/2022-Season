@@ -190,7 +190,7 @@ public class OurRobot {
 		// Elevator
 		elevator = new Elevator(
 			hardware_map.get(DcMotor.class, Constants.elevator_motor_name),
-			hardware_map.get(Servo.class, Constants.scoop_servo_name),
+			hardware_map.get(CRServo.class, Constants.scoop_servo_name),
 			hardware_map.get(TouchSensor.class, Constants.elevator_bottom_limit_switch_name),
 			telemetry
 

@@ -4,7 +4,7 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -22,7 +22,7 @@ public class Elevator {
 	private DcMotor motor;
 
 	/** Servo for the scoop  */
-	private Servo servo;
+	private CRServo servo;
 
 	/** Limit switch */
 	private TouchSensor limit_switch;
@@ -42,7 +42,7 @@ public class Elevator {
 	 * @param telemetry Telemetry pass through
 	 */
 
-	public Elevator(DcMotor motor, Servo servo, TouchSensor limit_switch, Telemetry telemetry) {
+	public Elevator(DcMotor motor, CRServo servo, TouchSensor limit_switch, Telemetry telemetry) {
 		this.motor = motor;
 		this.servo = servo;
 		this.limit_switch = limit_switch;
@@ -50,7 +50,7 @@ public class Elevator {
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
-		this.servo.setDirection(Servo.Direction.REVERSE);
+		this.servo.setDirection(CRServo.Direction.REVERSE);
 		
 		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -68,13 +68,13 @@ public class Elevator {
 
 	public Elevator(String motor, String servo, String limit_switch, HardwareMap hardware_map, Telemetry telemetry) {
 		this.motor = hardware_map.get(DcMotor.class, motor);
-		this.servo = hardware_map.get(Servo.class, servo);
+		this.servo = hardware_map.get(CRServo.class, servo);
 		this.limit_switch = hardware_map.get(TouchSensor.class, limit_switch);
 		
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
-		this.servo.setDirection(Servo.Direction.REVERSE);
+		this.servo.setDirection(CRServo.Direction.REVERSE);
 		
 		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -91,13 +91,13 @@ public class Elevator {
 
 	public Elevator(HardwareMap hardware_map, Telemetry telemetry) {
 		this.motor = hardware_map.get(DcMotor.class, Constants.elevator_motor_name);
-		this.servo = hardware_map.get(Servo.class, Constants.scoop_servo_name);
+		this.servo = hardware_map.get(CRServo.class, Constants.scoop_servo_name);
 		this.limit_switch = hardware_map.get(TouchSensor.class, Constants.elevator_bottom_limit_switch_name);
 		
 		this.telemetry = telemetry;
 
 		this.motor.setDirection(DcMotor.Direction.REVERSE);
-		this.servo.setDirection(Servo.Direction.REVERSE);
+		this.servo.setDirection(CRServo.Direction.REVERSE);
 		
 		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -155,10 +155,10 @@ public class Elevator {
 	private void forwardElevatorDirection() { motor.setDirection(DcMotor.Direction.FORWARD); }
 	
 	/** Reverses the servo direction */
-	public void reverseScoopDirection() { servo.setDirection(Servo.Direction.REVERSE); }
+	public void reverseScoopDirection() { servo.setDirection(CRServo.Direction.REVERSE); }
 
 	/** Un-reverses servo direction */
-	public void forwardScoopDirection() { servo.setDirection(Servo.Direction.FORWARD); }
+	public void forwardScoopDirection() { servo.setDirection(CRServo.Direction.FORWARD); }
 
 	/** Disable encoders */
 	public void disableEncoders() { motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); }
@@ -220,40 +220,24 @@ public class Elevator {
 
 	}
 
-	 /**
-	 * Run the scoop
-	 * 
-	 * @param pos position
-	 */
+	// ---------------- Move
 
-	public void setScoopPos(double pos) {
-		servo.setPosition(pos);
-
-	}
-	
 	/**
 	 * Run the scoop
-	 * 
-	 * @param pos_inc position increment
+	 *
+	 * @param power Power
 	 */
 
-	public void incScoopPos(double pos_inc) {
-		setScoopPos(getScoopPos() + pos_inc);
+	public void runScoop(double power) {
+		telemetry.addData("Scoop Motor Power", power);
+		servo.setPower(power);
 
 	}
-	
-	/**
-	 * Get the scoop position
-	 * 
-	 * @return scoop position
-	 */
 
-	public double getScoopPos() {
-		double position = servo.getPosition();
-		telemetry.addData("Scoop Position: ", position);
-		
-		return position;
-		
-	}
+	/** Run the scoop */
+	public void runScoop() { runScoop(0.5); }
+
+	/** Stop the scoop */
+	public void stopScoop() { runScoop(0); }
 
 }
