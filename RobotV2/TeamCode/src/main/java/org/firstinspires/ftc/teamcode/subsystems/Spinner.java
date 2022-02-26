@@ -127,59 +127,23 @@ public class Spinner {
 
 	// ---------------- Move
 
-	/**
-	 * Reverses the motor direction
-	 */
+	/** Reverses the motor direction */
+	public void reverseDirection() { motor.setDirection(DcMotor.Direction.REVERSE); }
 
-	public void reverseDirection() {
-		motor.setDirection(DcMotor.Direction.REVERSE);
+	/** Un-reverses motor direction */
+	public void forwardDirection() { motor.setDirection(DcMotor.Direction.FORWARD); }
 
-	}
-
-	/**
-	 * Un-reverses motor direction
-	 */
-
-	public void forwardDirection() {
-		motor.setDirection(DcMotor.Direction.FORWARD);
-
-	}
-
-	/**
-	 * Disable encoders
-	 */
-
-	public void disableEncoders() {
-		motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-	}
+	/** Disable encoders */
+	public void disableEncoders() { motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); }
 	
-	/**
-	 * Enable encoders
-	 */
+	/** Enable encoders */
+	public void enableEncoders() { motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER); }
 
-	public void enableEncoders() {
-		motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-	}
-
-	/**
-	 * Reset encoders
-	 */
-
-	public void resetEncoders() {
-		motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-	}
+	/** Reset encoders */
+	public void resetEncoders() { motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); }
 	
-	/**
-	 * Run to position
-	 */
-	
-	public void encodersRunToPos() {
-		motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-		
-	}
+	/** Run to position */
+	public void encodersRunToPos() { motor.setMode(DcMotor.RunMode.RUN_TO_POSITION); }
 
 	/**
 	 * Run the spinner
