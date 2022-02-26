@@ -66,18 +66,12 @@ public class Spinner {
 	 */
 
 	public Spinner(String motor, String distance_sensor, HardwareMap hardware_map, Telemetry telemetry) {
-		this.motor = hardware_map.get(DcMotor.class, motor);
-		this.distance_sensor = hardware_map.get(DistanceSensor.class, distance_sensor);
+		this(
+				hardware_map.get(DcMotor.class, motor),
+				hardware_map.get(DistanceSensor.class, distance_sensor),
+				telemetry
 
-		this.telemetry = telemetry;
-
-		this.motor.setDirection(DcMotor.Direction.REVERSE);
-		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-		// Reset and disable encoders
-		resetEncoders();
-		disableEncoders();
-
+		);
 	}
 
 	/**
@@ -90,18 +84,13 @@ public class Spinner {
 	 */
 
 	public Spinner(HardwareMap hardware_map, Telemetry telemetry) {
-		this.motor = hardware_map.get(DcMotor.class, Constants.intake_motor_name);
-		this.distance_sensor = hardware_map.get(DistanceSensor.class, Constants.spinner_range_sensor_name);
+		this(
+				Constants.intake_motor_name,
+				Constants.spinner_range_sensor_name,
+				hardware_map,
+				telemetry
 
-		this.telemetry = telemetry;
-
-		this.motor.setDirection(DcMotor.Direction.REVERSE);
-		this.motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-		// Reset and disable encoders
-		resetEncoders();
-		disableEncoders();
-
+		);
 	}
 
 	// ---------------- Presence
@@ -174,12 +163,14 @@ public class Spinner {
 	 * Run spinner with ticks
 	 * 
 	 * @param ticks motor ticks
+	 * @param power motor power
 	 */
 	
 	private void runSpinnerToPos(int ticks, double power) {
 		resetEncoders();
 		encodersRunToPos();
-		
+
+		telemetry.addData("Spinner Target Position", ticks);
 		motor.setTargetPosition(ticks);
 		runSpinner(power);
 		
@@ -190,19 +181,30 @@ public class Spinner {
 	 */
 	
 	public void rotateSpinner() { rotateSpinner(1); }
-	
+
 	/**
-	 * Rotates the spinner wheel 
-	 * 
+	 * Rotates the spinner wheel
+	 *
 	 * @param rotations Number of rotations of the spinner wheel
 	 */
-	
+
 	public void rotateSpinner(int rotations) {
 		int tpr = Constants.spinner_motor_ticks_per_rev;
 		int mvw = Constants.motor_rev_to_wheel_rev;
-		
+
 		runSpinnerToPos(rotations * tpr * mvw, 1);
-		
+
+	}
+
+	/**
+	 * Rotates the spinner wheel
+	 *
+	 * @param rotations Number of rotations of the spinner wheel
+	 */
+
+	public void rotateSpinner(double rotations) {
+		rotateSpinner(((int) Math.round(rotations)));
+
 	}
 
 	/**
