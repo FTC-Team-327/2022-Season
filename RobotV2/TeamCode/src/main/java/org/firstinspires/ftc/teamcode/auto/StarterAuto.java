@@ -1,3 +1,5 @@
+package org.firstinspires.ftc.teamcode.auto;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -5,9 +7,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.OurRobot;
 import org.firstinspires.ftc.teamcode.Constants;
 
-@Autonomous(name="Auto", group = "Linear Opmode")
+@Autonomous(name="Warehouse Auto", group = "Linear Opmode")
 
-public class Auto extends LinearOpMode {
+public class StarterAuto extends LinearOpMode {
 	
 	// timer
 	private ElapsedTime runtime = new ElapsedTime();
@@ -26,9 +28,12 @@ public class Auto extends LinearOpMode {
 		// Wait for game to start
 		waitForStart();
 		runtime.reset();
+
+		robot.drivetrain.mecDrive(-1, 0, 0);
+		sleep(1000);
+		robot.drivetrain.brake();
 		
-		
-		robot.spinner.rotateSpinner(1);
+		//robot.spinner.rotateSpinner(1);
 		
 		sleep((long) ((30 - runtime.seconds()) * 1000));
 		
